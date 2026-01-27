@@ -22,14 +22,13 @@ use = ["init.zsh"]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
 
-
 [plugins.z]
 github = "rupa/z"
 use = ["z.sh"]
 
-[plugins.local]
-local = "~/.zsh"
-use = ["*.sh"]
-
 [plugins.starship]
 inline = 'export STARSHIP_CONFIG=~/.config/starship/starship.toml; eval "$(starship init zsh)"'
+
+[plugins.local]
+local = "~/.config/zsh"
+use = ["*.sh"]
