@@ -1,1 +1,0 @@
-/Users/Yu/dotfiles/bin/.vim
