@@ -118,3 +118,5 @@ alias sqlf='sql-formatter-cli'
 alias date='gdate'
 
 alias rr=gh-revreq
+
+alias ss='sesh connect $(sesh list | fzf)'
