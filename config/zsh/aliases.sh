@@ -32,6 +32,8 @@ alias tat='tmux a -t'
 alias tls='tmux ls'
 alias tcc='tmux -CC'
 alias trn='tmux rename -t'
+alias tn='tmux new-session -A -s "$(basename "$PWD")"'
+
 
 # vim
 alias vim='nvim'
@@ -119,4 +121,5 @@ alias date='gdate'
 
 alias rr=gh-revreq
 
-alias ss='sesh connect $(sesh list | fzf)'
+alias ss='sesh connect $(sesh list -t | fzf)'
+alias sc='sesh connect'
