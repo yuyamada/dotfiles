@@ -41,3 +41,8 @@ if [ -d "$DOTFILES_DIR/config" ]; then
         fi
     done
 fi
+
+# .zshrc をリンク
+if [ -f "$DOTFILES_DIR/config/zsh/zshrc" ]; then
+    link_file "$DOTFILES_DIR/config/zsh/zshrc" "$HOME/.zshrc"
+fi
