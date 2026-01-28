@@ -70,6 +70,16 @@ vim.keymap.set("n", "<esc><esc>", ":<C-u>set nohlsearch!<CR>", { silent = true }
 vim.keymap.set("n", "x", '"_x')
 vim.keymap.set("n", "d", '"_d')
 
--- oil.nvim ファイルエクスプローラー
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", { desc = "Open file explorer" })
+-- snacks.nvim picker
+vim.keymap.set("n", "<leader><space>", function()
+  Snacks.picker.smart()
+end, { desc = "Smart Find Files" })
+vim.keymap.set("n", "<leader>/", function()
+  Snacks.picker.grep()
+end, { desc = "Grep" })
+vim.keymap.set("n", "<leader>e", function()
+  Snacks.explorer()
+end, { desc = "File Explorer" })
+vim.keymap.set("n", "<leader>p", function()
+  Snacks.picker.pickers()
+end, { desc = "Pickers picker" })
