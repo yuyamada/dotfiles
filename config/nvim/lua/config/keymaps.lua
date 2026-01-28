@@ -1,5 +1,9 @@
 -- キーマップ設定
 
+-- leader キーの設定
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- jj で normal mode
 vim.keymap.set("i", "jj", "<ESC>", { silent = true })
 
@@ -65,3 +69,7 @@ vim.keymap.set("n", "<esc><esc>", ":<C-u>set nohlsearch!<CR>", { silent = true }
 -- delete without cut
 vim.keymap.set("n", "x", '"_x')
 vim.keymap.set("n", "d", '"_d')
+
+-- oil.nvim ファイルエクスプローラー
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", { desc = "Open file explorer" })
