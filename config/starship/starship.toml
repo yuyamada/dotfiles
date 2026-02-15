@@ -21,7 +21,7 @@ style = "bold blue"
 disabled = false
 format = "[$symbol$cluster/$namespace]($style) "
 style = "#666666"
-detect_folders = ["manifests"]
+# detect_folders = ["manifests"]
 
 [git_branch]
 format = "[$symbol$branch]($style) "
