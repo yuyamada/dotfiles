@@ -5,7 +5,7 @@ bindkey -M viins '^A'  beginning-of-line
 bindkey -M viins '^B'  backward-char
 bindkey -M viins '^D'  delete-char-or-list
 bindkey -M viins '^E'  end-of-line
-#bindkey -M viins '^F'  forward-char
+#bindkey -M viins '^F' forward-char
 bindkey -M viins '^G'  send-break
 #bindkey -M viins '^H'  backward-delete-char
 #bindkey -M viins '^K'  kill-line
@@ -32,7 +32,7 @@ bindkey -M viins '^k'  up-line-or-history
 bindkey -M viins '^l'  forward-char
 bindkey -M viins '^d'  backward-delete-char
 bindkey -M viins '^m'  accept-line
-bindkey -M viins '^f'  accept-line
+# bindkey -M viins '^f'  accept-line
 
 function fuzzy-history-selection() {
     # BUFFER=`history -n 1 | awk '!a[$0]++' | fzf-tmux --reverse -p --height 100%`
