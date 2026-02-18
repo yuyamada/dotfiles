@@ -67,8 +67,8 @@ return {
     -- コピーモード
     -- { key = 'X', mods = 'LEADER', action = act.ActivateKeyTable{ name = 'copy_mode', one_shot =false }, },
     { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
-    -- コピー
-    { key = "c", mods = "SUPER", action = act.CopyTo("Clipboard") },
+    -- コピー（Meta+c を送って tmux の M-c で pbcopy に渡す。tmux 未使用時は Esc+c がシェルに送られる）
+    { key = "c", mods = "SUPER", action = act.SendString("\x1bc") },
     -- 貼り付け
     { key = "v", mods = "SUPER", action = act.PasteFrom("Clipboard") },
 
