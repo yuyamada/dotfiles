@@ -121,5 +121,11 @@ alias date='gdate'
 
 alias rr=gh-revreq
 
-alias ss='sesh connect $(sesh list -t | fzf)'
-alias sc='sesh connect'
+# tmux session switcher
+function ss() {
+  if [[ -n "$1" ]]; then
+    sesh connect "$1"
+    return
+  fi
+  sesh connect $(sesh list -t | fzf)
+}
