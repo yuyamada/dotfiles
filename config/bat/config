@@ -1,0 +1,14 @@
+# テーマを iceberg に固定（先ほど追加済みの場合）
+--theme="Nord"
+
+# 常にプレーンモード（枠線や行番号を消す）にしたい場合
+--style="plain"
+
+# 行番号だけは出したい場合
+# --style="numbers,changes"
+
+# 常にページャー（less）を使わず一気に表示したい場合
+# --paging=never
+
+# 大文字小文字を区別せずに検索
+--italic-text=always

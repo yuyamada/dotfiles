@@ -142,3 +142,6 @@ _s_completion() {
 }
 
 compdef _s_completion s
+
+# bat
+alias bat='bat -p'
