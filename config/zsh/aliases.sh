@@ -122,10 +122,23 @@ alias date='gdate'
 alias rr=gh-revreq
 
 # tmux session switcher
-function ss() {
+function s() {
   if [[ -n "$1" ]]; then
     sesh connect "$1"
     return
   fi
   sesh connect $(sesh list -t | fzf)
 }
+
+# s関数のディレクトリ補完を設定
+_s_completion() {
+    # 1. sesh のセッションリストを候補に出す
+    local -a sessions
+    sessions=(${(f)"$(sesh list -t)"})
+    _describe 'session' sessions
+
+    # 2. ディレクトリのみを候補に出す (-/ オプション)
+    _path_files -/
+}
+
+compdef _s_completion s
