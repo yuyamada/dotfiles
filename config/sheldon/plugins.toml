@@ -14,13 +14,17 @@ shell = "zsh"
 
 [plugins]
 
-[plugins.prezto]
-github = "sorin-ionescu/prezto"
-use = ["init.zsh"]
-
+# [plugins.prezto]
+# github = "sorin-ionescu/prezto"
+# use = ["init.zsh"]
+#
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
+
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
 
 [plugins.z]
 github = "rupa/z"

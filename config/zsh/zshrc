@@ -1,4 +1,8 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+autoload -Uz compinit
+compinit
+
 eval "$(sheldon source)"
 echo "May the force be with you."
 
@@ -7,6 +11,7 @@ export PATH="/Users/yuyamada/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 eval "$(mise activate zsh)"
+
 
 # シェル起動時に tmux を自動起動（既に tmux 内なら何もしない）
 if [[ -z "$TMUX" && -o interactive ]]; then
