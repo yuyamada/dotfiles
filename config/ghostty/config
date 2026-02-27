@@ -1,0 +1,5 @@
+# Ghostty Configuration
+# Minimal configuration - mostly default settings
+
+# Basic Japanese input support
+macos-option-as-alt = true

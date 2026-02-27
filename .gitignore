@@ -1,2 +1,9 @@
 tmp
 .DS_Store
+
+# Claude Code
+.claude/session-*
+.claude/cache/
+.claude/history/
+.claude/backups/
+*.jsonl

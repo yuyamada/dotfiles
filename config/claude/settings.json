@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "List:*",
+      "Read:*",
+      "Search:*",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(diff:*)",
+      "Bash(find:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh release view:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh workflow view:*)",
+      "Bash(gh api:* --method GET)",
+      "Bash(gh api:* -X GET)"
+    ]
+  },
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754034689628
+  }
+}
