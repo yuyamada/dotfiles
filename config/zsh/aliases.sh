@@ -125,9 +125,6 @@ function lgtm() {
   && echo Looks Good To Me!
 }
 
-# docker
-alias dc='docker-compose'
-
 alias bazel='bazelisk'
 
 # onelogin
