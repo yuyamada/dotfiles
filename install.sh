@@ -47,6 +47,10 @@ if [ -f "$DOTFILES_DIR/config/zsh/zshrc" ]; then
     link_file "$DOTFILES_DIR/config/zsh/zshrc" "$HOME/.zshrc"
 fi
 
+# karabiner.json をリンク（ディレクトリごとではなくファイル単体）
+mkdir -p "$HOME/.config/karabiner"
+link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+
 # ~/.claude/settings.json をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
