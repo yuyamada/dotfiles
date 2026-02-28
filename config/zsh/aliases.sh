@@ -25,6 +25,28 @@ which git-cz > /dev/null && alias gcz='git-cz --disable-emoji'
 # less
 alias less='less -R'
 
+# ls
+alias l='ls -1A'
+alias ll='ls -lh'
+alias la='ll -A'
+alias lt='ll -tr'
+alias lk='ll -Sr'
+alias lr='ll -R'
+
+# directory
+alias -- -='cd -'
+alias o='open'
+
+# safety
+alias mkdir='mkdir -p'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+# utility
+alias http-serve='python3 -m http.server'
+alias sa='alias | grep -i'
+
 # tmux
 alias t='tmux'
 alias ta='tmux a'
