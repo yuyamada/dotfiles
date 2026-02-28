@@ -17,7 +17,6 @@ bindkey -M viins '^W'  backward-kill-word
 bindkey -M viins '^Y'  yank
 # 補完時にhjklで選択
 zmodload -i zsh/complist
-autoload -Uz compinit && compinit
 zstyle ':completion:*:default' menu select= 2
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
