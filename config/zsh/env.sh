@@ -1,6 +1,12 @@
 export LANG=en_US.utf-8
 export EDITOR=nvim
 
+# completion
+setopt AUTO_MENU
+setopt AUTO_LIST
+setopt ALWAYS_TO_END
+setopt COMPLETE_IN_WORD
+
 # history
 HISTFILE=~/.zsh_history
 HISTSIZE=50000
