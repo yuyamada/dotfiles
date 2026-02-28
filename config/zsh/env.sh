@@ -1,6 +1,8 @@
 export LANG=en_US.utf-8
 export EDITOR=nvim
 
+typeset -U path PATH
+
 # completion
 setopt AUTO_MENU
 setopt AUTO_LIST

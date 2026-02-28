@@ -69,14 +69,12 @@ alias time='gtime'
 
 # fujiso-san configuration↲
 alias gpu='watch -n1 "hostname; nvidia-smi pmon -s um -c 1"'↲
-alias imux='tmux attach || tmux new-session \; source-file ~/.tmux/imux'
 
 # my commands
 alias tokenize='sed -e "s/ /_/g" | sed -E "s/(.)/\1 /g" | sed -e "s/ $//g"'
 alias tk='tokenize'
 alias detokenize='sed -e "s/ //g" | sed -e "s/_/ /g"'
 alias dtk='detokenize'
-alias ws='cd ~/Workspace/yahoo/Text-Summarizer-Pytorch'
 alias relogin='exec $SHELL -l'
 alias pc='pbcopy'
 alias pp='pbpaste'
