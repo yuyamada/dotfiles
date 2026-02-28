@@ -50,6 +50,7 @@ fi
 # ~/.claude/settings.json をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
