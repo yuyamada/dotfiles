@@ -3,3 +3,5 @@
 
 # Basic Japanese input support
 macos-option-as-alt = true
+
+theme = Iceberg Dark
