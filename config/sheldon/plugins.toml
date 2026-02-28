@@ -14,10 +14,6 @@ shell = "zsh"
 
 [plugins]
 
-# [plugins.prezto]
-# github = "sorin-ionescu/prezto"
-# use = ["init.zsh"]
-#
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
