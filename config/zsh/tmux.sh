@@ -6,8 +6,8 @@ if [ -n "$TMUX" ]; then
     local base=$(basename "$short")
     local abbr=$(echo "$dir" | sed 's|/\([^/]\)[^/]*|/\1|g')
     local path="${abbr}/${base}"
-    tmux rename-window "$path"
-    tmux select-pane -T "$path"
+    /opt/homebrew/bin/tmux rename-window "$path"
+    /opt/homebrew/bin/tmux select-pane -T "$path"
   }
   precmd_functions+=(_tmux_update_path)
 fi
