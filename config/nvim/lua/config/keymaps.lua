@@ -63,8 +63,9 @@ vim.keymap.set("n", "sv", ":<C-u>vs<CR>")
 vim.keymap.set("n", "sq", ":q<CR>")
 vim.keymap.set("n", "sQ", ":<C-u>bd<CR>")
 
--- 全バッファを保存せずに終了
-vim.keymap.set("n", "<leader>Q", ":<C-u>qa!<CR>", { silent = true })
+-- diffview
+vim.keymap.set("n", "<leader>gd", ":<C-u>DiffviewOpen<CR>",          { silent = true, desc = "Git diff" })
+vim.keymap.set("n", "<leader>gh", ":<C-u>DiffviewFileHistory %<CR>", { silent = true, desc = "Git file history" })
 
 -- 文字列検索（ESC 2回でハイライトの切り替え）
 vim.keymap.set("n", "<esc><esc>", ":<C-u>set nohlsearch!<CR>", { silent = true })

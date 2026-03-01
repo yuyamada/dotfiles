@@ -9,6 +9,7 @@ return {
     },
   },
   opts = {
+    indent = { enabled = true },
     picker = {
       prompt = "/ ",
       icons = {
