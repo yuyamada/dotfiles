@@ -9,7 +9,7 @@ return {
     },
   },
   opts = {
-    indent = { enabled = true },
+    indent = { enabled = true, animate = { enabled = false } },
     dashboard = { enabled = false },
     picker = {
       prompt = "/ ",

@@ -1,4 +1,5 @@
 vim.opt.clipboard = "unnamedplus"
+vim.opt.showmode = false
 
 -- :Q で全バッファを保存せずに終了
 vim.api.nvim_create_user_command("Q", function(opts)
