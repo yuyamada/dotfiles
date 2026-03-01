@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "List:*",
+      "Read:*",
+      "Search:*",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(diff:*)",
+      "Bash(find:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh release view:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh workflow view:*)",
+      "mcp__plugin_Notion_notion__notion-search",
+      "mcp__plugin_Notion_notion__notion-fetch",
+      "mcp__plugin_Notion_notion__notion-get-comments",
+      "mcp__plugin_slack_slack__slack_search_channels",
+      "mcp__plugin_slack_slack__slack_search_users",
+      "mcp__plugin_slack_slack__slack_search_public",
+      "mcp__plugin_slack_slack__slack_search_public_and_private",
+      "mcp__plugin_slack_slack__slack_read_channel",
+      "mcp__plugin_slack_slack__slack_read_thread",
+      "mcp__plugin_slack_slack__slack_read_canvas",
+      "mcp__plugin_slack_slack__slack_read_user_profile",
+      "mcp__aws-documentation__search_documentation",
+      "mcp__aws-documentation__read_documentation",
+      "mcp__aws-documentation__recommend",
+      "mcp__google-developer-knowledge__search_documents",
+      "mcp__google-developer-knowledge__get_document",
+      "mcp__google-developer-knowledge__batch_get_documents"
+    ],
+    "additionalDirectories": [
+      "~/workspace"
+    ]
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true,
+    "Notion@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
+  },
+  "mcpServers": {
+    "aws-documentation": {
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    },
+    "google-developer-knowledge": {
+      "type": "http",
+      "url": "https://developerknowledge.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
+      }
+    }
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754034689628
+  }
+}

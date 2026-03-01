@@ -1,3 +1,6 @@
-bin/.ssh/
-!bin/.ssh/config
-bin/.vim/bundle
+tmp
+.DS_Store
+config/tmux/plugins/
+
+# Claude Code
+.claude/

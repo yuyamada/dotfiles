@@ -1,0 +1,21 @@
+# Ghostty Configuration
+
+# Basic Japanese input support
+macos-option-as-alt = true
+
+theme = Iceberg Dark
+
+# フォント
+font-size = 16
+
+# ウィンドウ
+window-padding-x = 8
+window-padding-y = 8
+
+# カーソル
+cursor-style = bar
+cursor-style-blink = false
+
+# その他
+scrollback-limit = 10000
+clipboard-trim-trailing-spaces = true

@@ -1,0 +1,28 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# 表示順序を「ディレクトリ」「Git」「k8s」の3つだけに固定
+format = """
+$directory\
+$git_branch\
+$kubernetes
+$character"""
+
+# 改行を入れない設定（1行にまとめたい場合）
+add_newline = true
+
+
+[character]
+success_symbol = "[❯](purple)"
+
+[directory]
+style = "bold blue"
+
+[kubernetes]
+disabled = false
+format = "[$symbol$cluster/$namespace]($style) "
+style = "#666666"
+# detect_folders = ["manifests"]
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+style = "#666666"

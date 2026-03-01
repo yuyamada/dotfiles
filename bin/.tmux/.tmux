@@ -1,1 +1,0 @@
-/home/lr/yuyamada/dotfiles/bin/.tmux

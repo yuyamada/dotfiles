@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/Yu/Documents/MacSettings/roles/homebrew_cask/tasks'
-let g:netrw_dirhist_2='/Users/Yu/Documents/MacSettings/roles/homebrew_cask/tasks/main.yml'
-let g:netrw_dirhist_3='/Users/yuyamada/MacSettings/roles/homebrew_cask/vars'
