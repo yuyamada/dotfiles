@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
-    "additionalDirectories": [
-      "~/workspace"
-    ],
     "allow": [
       "List:*",
       "Read:*",
@@ -21,8 +21,6 @@
       "Bash(gh release view:*)",
       "Bash(gh run view:*)",
       "Bash(gh workflow view:*)",
-      "Bash(gh api:* --method GET)",
-      "Bash(gh api:* -X GET)",
       "mcp__plugin_Notion_notion__notion-search",
       "mcp__plugin_Notion_notion__notion-fetch",
       "mcp__plugin_Notion_notion__notion-get-comments",
@@ -34,7 +32,16 @@
       "mcp__plugin_slack_slack__slack_read_thread",
       "mcp__plugin_slack_slack__slack_read_canvas",
       "mcp__plugin_slack_slack__slack_read_user_profile"
+    ],
+    "additionalDirectories": [
+      "~/workspace"
     ]
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true,
+    "Notion@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
   },
   "mcpServers": {
     "github": {
@@ -45,15 +52,7 @@
       }
     }
   },
-  "enabledPlugins": {
-    "commit-commands@claude-plugins-official": true,
-    "Notion@claude-plugins-official": true,
-    "slack@claude-plugins-official": true
-  },
   "feedbackSurveyState": {
     "lastShownTime": 1754034689628
-  },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
