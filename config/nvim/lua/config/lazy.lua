@@ -16,6 +16,10 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy.nvim の初期化
 require("lazy").setup("plugins", {
+  -- インストール時のカラースキーム（インストール中も iceberg を適用）
+  install = {
+    colorscheme = { "iceberg", "habamax" },
+  },
   -- インストール時の UI 設定
   ui = {
     border = "rounded",

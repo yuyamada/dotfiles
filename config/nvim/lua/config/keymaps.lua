@@ -100,6 +100,17 @@ vim.keymap.set("n", "<leader><C-r>", function()
   })
 end, { silent = true, desc = "Select session" })
 
+-- 設定リロード
+vim.keymap.set("n", "<leader>R", function()
+  for name, _ in pairs(package.loaded) do
+    if name:match("^config%.") or name:match("^plugins%.") then
+      package.loaded[name] = nil
+    end
+  end
+  dofile(vim.fn.stdpath("config") .. "/init.lua")
+  vim.notify("Config reloaded", vim.log.levels.INFO)
+end, { silent = true, desc = "Reload config" })
+
 -- lazygit
 vim.keymap.set("n", "<leader>gg", function() Snacks.lazygit() end, { silent = true, desc = "Lazygit" })
 

@@ -15,6 +15,11 @@ local function apply()
   vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#6b7089" })
   vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#1e2132" })
   vim.api.nvim_set_hl(0, "Directory",        { fg = "#6b7089" })
+  -- diagnostic virtual text をコメント色（グレー系）に
+  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = "#4e5278", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn",  { fg = "#4e5278", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo",  { fg = "#4e5278", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint",  { fg = "#4e5278", bg = "NONE" })
   -- DevIcon* を同じ明るさに統一
   for _, hl in ipairs(vim.fn.getcompletion("DevIcon", "highlight")) do
     vim.api.nvim_set_hl(0, hl, { fg = "#6b7089" })
