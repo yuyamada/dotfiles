@@ -100,6 +100,9 @@ vim.keymap.set("n", "<leader><C-r>", function()
   })
 end, { silent = true, desc = "Select session" })
 
+-- lazygit
+vim.keymap.set("n", "<leader>gg", function() Snacks.lazygit() end, { silent = true, desc = "Lazygit" })
+
 -- diffview
 vim.keymap.set("n", "<leader>gd", ":<C-u>DiffviewOpen<CR>",          { silent = true, desc = "Git diff" })
 vim.keymap.set("n", "<leader>gh", ":<C-u>DiffviewFileHistory %<CR>", { silent = true, desc = "Git file history" })
