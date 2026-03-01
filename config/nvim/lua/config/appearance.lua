@@ -1,5 +1,7 @@
 -- カラースキームのカスタムハイライト設定
 local function apply()
+  -- 行番号を暗く
+  vim.api.nvim_set_hl(0, "LineNr", { fg = "#3d425b", bg = "#1e2132" })
   -- NormalFloat / FloatBorder を iceberg に合わせる
   vim.api.nvim_set_hl(0, "NormalFloat",  { bg = "#161821", fg = "#c6c8d1" })
   vim.api.nvim_set_hl(0, "FloatBorder",  { bg = "#161821", fg = "#1e2132" })
