@@ -63,6 +63,43 @@ vim.keymap.set("n", "sv", ":<C-u>vs<CR>")
 vim.keymap.set("n", "sq", ":q<CR>")
 vim.keymap.set("n", "sQ", ":<C-u>bd<CR>")
 
+-- session
+vim.keymap.set("n", "<leader><C-r>", function()
+  local dir = vim.fn.stdpath("state") .. "/sessions"
+  local home = vim.fn.expand("~")
+  local files = vim.fn.glob(dir .. "/*", false, true)
+  local items = {}
+  for _, file in ipairs(files) do
+    local name = vim.fn.fnamemodify(file, ":t:r")
+    local decoded = name:gsub("%%", "/"):gsub("^" .. vim.pesc(home), "~")
+    table.insert(items, { text = decoded, file = file })
+  end
+  Snacks.picker.pick({
+    items = items,
+    title = "Sessions",
+    format = "text",
+    layout = { preview = false },
+    confirm = function(picker, item)
+      picker:close()
+      vim.cmd("silent! source " .. vim.fn.fnameescape(item.file))
+    end,
+    actions = {
+      delete_session = function(picker, item)
+        local sel = picker:selected({ fallback = true })
+        for _, s in ipairs(sel) do
+          vim.fn.delete(s.file)
+        end
+        picker:refresh()
+      end,
+    },
+    win = {
+      input = {
+        keys = { ["dd"] = { "delete_session", mode = { "n" } } },
+      },
+    },
+  })
+end, { silent = true, desc = "Select session" })
+
 -- diffview
 vim.keymap.set("n", "<leader>gd", ":<C-u>DiffviewOpen<CR>",          { silent = true, desc = "Git diff" })
 vim.keymap.set("n", "<leader>gh", ":<C-u>DiffviewFileHistory %<CR>", { silent = true, desc = "Git file history" })

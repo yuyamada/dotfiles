@@ -10,6 +10,7 @@ return {
   },
   opts = {
     indent = { enabled = true },
+    dashboard = { enabled = false },
     picker = {
       prompt = "/ ",
       icons = {
