@@ -3,9 +3,20 @@ return {
   "folke/snacks.nvim",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "nvim-tree/nvim-web-devicons",
+    {
+      "nvim-tree/nvim-web-devicons",
+      opts = { color_icons = false },
+    },
   },
   opts = {
-    -- デフォルト設定を使用
+    picker = {
+      prompt = "/ ",
+      icons = {
+        files = {
+          dir      = "› ",
+          dir_open = "⌄ ",
+        },
+      },
+    },
   },
 }

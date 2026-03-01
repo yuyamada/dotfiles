@@ -8,3 +8,4 @@ vim.env.PATH = "/opt/homebrew/opt/curl/bin:" .. vim.env.PATH
 require("config.general")
 require("config.keymaps")
 require("config.lazy")
+require("config.appearance")
