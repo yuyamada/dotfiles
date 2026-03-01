@@ -44,11 +44,18 @@
     "context7@claude-plugins-official": true
   },
   "mcpServers": {
-    "github": {
+    "aws-documentation": {
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    },
+    "google-developer-knowledge": {
       "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/",
+      "url": "https://developerknowledge.googleapis.com/mcp",
       "headers": {
-        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+        "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
     }
   },
