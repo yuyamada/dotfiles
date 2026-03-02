@@ -15,6 +15,9 @@ local function apply()
   vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#6b7089" })
   vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#1e2132" })
   vim.api.nvim_set_hl(0, "Directory",        { fg = "#6b7089" })
+  -- 隠しファイル用のハイライト設定（元の設定を維持）
+  vim.api.nvim_set_hl(0, "SnacksPickerHidden", { fg = "#6b7089" })  -- 通常ファイルと同じ色
+  vim.api.nvim_set_hl(0, "SnacksExplorerHidden", { fg = "#6b7089" })
   -- diagnostic virtual text をコメント色（グレー系）に
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = "#4e5278", bg = "NONE" })
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn",  { fg = "#4e5278", bg = "NONE" })

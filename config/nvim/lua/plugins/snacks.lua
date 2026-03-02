@@ -19,6 +19,20 @@ return {
           dir_open = "⌄ ",
         },
       },
+      sources = {
+        explorer = {
+          formatters = {
+            file = {
+              filename_only = true,
+              hidden = { icon = "", hl = "SnacksPickerFile" },  -- 隠しファイルを通常ファイルと同じハイライトに
+            },
+          },
+        },
+      },
+    },
+    explorer = {
+      replace_netrw = true,
+      trash = true,
     },
   },
 }
