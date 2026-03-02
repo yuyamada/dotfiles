@@ -51,10 +51,10 @@ fi
 mkdir -p "$HOME/.config/karabiner"
 link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 
-# ~/.claude/settings.json をリンク
+# ~/.claude/ にコピー（Claude Code が settings.json を書き換えるためシンボリックリンクは使わない）
 mkdir -p "$HOME/.claude"
-link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
-link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
