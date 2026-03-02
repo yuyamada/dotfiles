@@ -7,6 +7,7 @@ brew "sheldon"
 brew "starship"
 brew "tmux"
 brew "z"
+brew "chafa"  # ターミナル画像表示
 brew "joshmedeski/sesh/sesh"
 cask "ghostty"
 cask "gitify"
