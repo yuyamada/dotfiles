@@ -8,8 +8,8 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DOTFILES_DIR"
 
-# シンボリックリンクを作成する関数
-link_file() {
+    # シンボリックリンクを作成する関数
+    link_file() {
     local src="$1"
     local dst="$2"
     
