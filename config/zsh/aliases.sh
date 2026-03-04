@@ -67,8 +67,6 @@ alias proxy='sh ~/.zsh/proxy.sh'
 
 alias time='gtime'
 
-# fujiso-san configuration↲
-alias gpu='watch -n1 "hostname; nvidia-smi pmon -s um -c 1"'↲
 
 # my commands
 alias tokenize='sed -e "s/ /_/g" | sed -E "s/(.)/\1 /g" | sed -e "s/ $//g"'
