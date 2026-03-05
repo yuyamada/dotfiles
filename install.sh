@@ -37,6 +37,9 @@ if [ -d "$DOTFILES_DIR/config" ]; then
     for dir in "$DOTFILES_DIR/config"/*; do
         if [ -d "$dir" ]; then
             dirname=$(basename "$dir")
+            if [ "$dirname" = "claude" ]; then
+                continue
+            fi
             link_file "$dir" "$HOME/.config/$dirname"
         fi
     done
@@ -51,10 +54,10 @@ fi
 mkdir -p "$HOME/.config/karabiner"
 link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 
-# ~/.claude/ にコピー（Claude Code が settings.json を書き換えるためシンボリックリンクは使わない）
-mkdir -p "$HOME/.claude"
-cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
-cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+# ~/.config/claude/ にコピー（Claude Code が settings.json を書き換えるためシンボリックリンクは使わない）
+mkdir -p "$HOME/.config/claude"
+cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.config/claude/settings.json"
+cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.config/claude/CLAUDE.md"
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
