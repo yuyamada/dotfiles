@@ -1,13 +1,31 @@
 # git
 alias g='git'
+compdef g=git
 alias gst='git status'
+compdef _git gst=git-status
 alias ga='git add'
+compdef _git ga=git-add
 alias gcm='git commit -m'
-alias gp='git push'
+compdef _git gcm=git-commit
+# 安全なforce pushを含むgp関数
+gp() {
+    if [[ "$1" == "-f" ]]; then
+        echo "🛡️  Using --force-with-lease instead of -f"
+        shift
+        git push --force-with-lease "$@"
+    else
+        git push "$@"
+    fi
+}
+compdef _git gp=git-push
 alias gpl='git pull'
+compdef _git gpl=git-pull
 alias gd='git diff'
+compdef _git gd=git-diff
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative --decorate=full'
+compdef _git gl=git-log
 alias gla='git log --graph --all --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative --decorate=full'
+compdef _git gla=git-log
 function git-switch-default() {
   if [[ "$#" -eq 0 ]]; then
     git switch $(git symbolic-ref refs/remotes/origin/HEAD | cut -f4 -d'/')
@@ -15,10 +33,14 @@ function git-switch-default() {
   fi
   git switch $@
 }
+compdef _git git-switch-default=git-switch
 alias gsw='git-switch-default'
+compdef _git gsw=git-switch
 
 alias grs='git restore'
+compdef _git grs=git-restore
 alias gf='git fetch'
+compdef _git gf=git-fetch
 
 which git-cz > /dev/null && alias gcz='git-cz --disable-emoji'
 
