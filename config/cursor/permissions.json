@@ -1,0 +1,18 @@
+{
+  "allow": [
+    "Shell(cat)",
+    "Shell(grep)",
+    "Shell(head)",
+    "Shell(tail)",
+    "Shell(less)",
+    "Shell(awk)",
+    "Shell(sed)",
+    "Shell(find)",
+    "Shell(ls)",
+    "Shell(jq)",
+    "Shell(git status)",
+    "Shell(git diff)",
+    "Shell(git log)"
+  ],
+  "deny": []
+}

@@ -37,7 +37,7 @@ if [ -d "$DOTFILES_DIR/config" ]; then
     for dir in "$DOTFILES_DIR/config"/*; do
         if [ -d "$dir" ]; then
             dirname=$(basename "$dir")
-            if [ "$dirname" = "claude" ]; then
+            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ]; then
                 continue
             fi
             link_file "$dir" "$HOME/.config/$dirname"
@@ -57,7 +57,27 @@ link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabin
 # ~/.config/claude/ にコピー（Claude Code が settings.json を書き換えるためシンボリックリンクは使わない）
 mkdir -p "$HOME/.config/claude"
 cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.config/claude/settings.json"
-cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.config/claude/CLAUDE.md"
+cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.config/claude/CLAUDE.md"
+
+# Cursorのグローバルルールとしてコピー
+cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.cursorrules"
+
+# Cursor CLI の許可リストを同期
+if [ -f "$DOTFILES_DIR/config/cursor/permissions.json" ]; then
+    mkdir -p "$HOME/.cursor"
+    if [ -f "$HOME/.cursor/cli-config.json" ]; then
+        if command -v jq &> /dev/null; then
+            jq --slurpfile perm "$DOTFILES_DIR/config/cursor/permissions.json" '.permissions = $perm[0]' "$HOME/.cursor/cli-config.json" > "$HOME/.cursor/cli-config.json.tmp" && mv "$HOME/.cursor/cli-config.json.tmp" "$HOME/.cursor/cli-config.json"
+            echo "✅ Cursor CLI の許可リストを更新しました"
+        else
+            echo "⚠️  jq がインストールされていないため、Cursor CLI 許可リストの同期をスキップします"
+        fi
+    else
+        # 新規作成（jqがなくても単純な文字列結合で作成）
+        echo "{\"version\": 1, \"permissions\": $(cat "$DOTFILES_DIR/config/cursor/permissions.json")}" > "$HOME/.cursor/cli-config.json"
+        echo "✅ Cursor CLI の設定を新規作成しました"
+    fi
+fi
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r

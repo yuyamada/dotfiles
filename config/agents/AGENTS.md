@@ -50,3 +50,9 @@
 - **Simplicity first**: Minimize changes, minimize impacted code
 - **No shortcuts**: Find root causes, avoid temporary fixes
 - **Minimize impact**: Change only what's needed, avoid new bugs
+
+## AI-Native Architecture Principles
+
+- **Enforce Invariants Mechanically**: Documentation alone cannot keep an agent-generated codebase coherent. Enforce strict invariants at boundaries (e.g., parsing data shapes with tools like Zod). Don't micromanage internal implementations, but strictly require input/output validation.
+- **Predictable & Rigid Structure**: Agents are most effective with strict boundaries. Divide applications into a fixed set of layers per business domain, and enforce valid dependency directions and permissible edges.
+- **Automated Verification**: Enforce architectural constraints mechanically via custom linters and structural tests. Let the agents write their own linters to ensure consistency at scale.
