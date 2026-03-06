@@ -54,10 +54,24 @@ fi
 mkdir -p "$HOME/.config/karabiner"
 link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 
-# ~/.config/claude/ にコピー（Claude Code が settings.json を書き換えるためシンボリックリンクは使わない）
+# ~/.config/claude/ および ~/.claude/ にコピー
 mkdir -p "$HOME/.config/claude"
-cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.config/claude/settings.json"
+mkdir -p "$HOME/.claude"
+
+# Claude Code が settings.json を頻繁に書き換えるため、jqがある場合はマージし、ない場合はコピーする
+if [ -f "$HOME/.config/claude/settings.json" ] && command -v jq &> /dev/null; then
+    # dotfilesの設定とローカルの設定（Bedrockなどの環境変数）をマージ
+    jq -s '.[0] * .[1]' "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.config/claude/settings.json" > "$HOME/.config/claude/settings.json.tmp"
+    mv "$HOME/.config/claude/settings.json.tmp" "$HOME/.config/claude/settings.json"
+else
+    cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.config/claude/settings.json"
+fi
+
 cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.config/claude/CLAUDE.md"
+
+# ~/.claude への後方互換性（実体をコピー）
+cp "$HOME/.config/claude/settings.json" "$HOME/.claude/settings.json"
+cp "$HOME/.config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 # Cursorのグローバルルールとしてコピー
 cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.cursorrules"
