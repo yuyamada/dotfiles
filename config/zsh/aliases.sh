@@ -61,9 +61,6 @@ alias o='open'
 
 # safety
 alias mkdir='mkdir -p'
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
 
 # utility
 alias http-serve='python3 -m http.server'
