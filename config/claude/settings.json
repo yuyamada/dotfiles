@@ -47,12 +47,15 @@
     "commit-commands@claude-plugins-official": true,
     "Notion@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
-    "context7@claude-plugins-official": true
+    "context7@claude-plugins-official": true,
+    "serena@claude-plugins-official": true
   },
   "mcpServers": {
     "aws-documentation": {
       "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
@@ -63,10 +66,6 @@
       "headers": {
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
-    },
-    "serena": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
     }
   },
   "feedbackSurveyState": {
