@@ -63,6 +63,10 @@
       "headers": {
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
+    },
+    "serena": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
     }
   },
   "feedbackSurveyState": {
