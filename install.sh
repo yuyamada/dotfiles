@@ -54,18 +54,10 @@ fi
 mkdir -p "$HOME/.config/karabiner"
 link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 
-# Claude Code の設定（~/.claude/ に配置。設定ファイルは頻繁に書き換わるため jq でマージ）
+# ~/.claude/ をリンク
 mkdir -p "$HOME/.claude"
-
-if [ -f "$HOME/.claude/settings.json" ] && command -v jq &> /dev/null; then
-    # dotfilesの設定とローカルの設定（Bedrockなどの環境変数）をマージ
-    jq -s '.[0] * .[1]' "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json" > "$HOME/.claude/settings.json.tmp"
-    mv "$HOME/.claude/settings.json.tmp" "$HOME/.claude/settings.json"
-else
-    cp "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
-fi
-
-cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+link_file "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 
 # Cursorのグローバルルールとしてコピー
 cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.cursorrules"
