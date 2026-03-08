@@ -54,6 +54,10 @@ fi
 mkdir -p "$HOME/.config/karabiner"
 link_file "$DOTFILES_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 
+# ~/.serena/ をリンク
+mkdir -p "$HOME/.serena"
+link_file "$DOTFILES_DIR/config/serena/serena_config.yml" "$HOME/.serena/serena_config.yml"
+
 # ~/.claude/ をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
