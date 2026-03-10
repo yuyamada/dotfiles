@@ -33,7 +33,7 @@ gui_log_window: false
 # You can then open the dashboard by asking your agent to do so (e.g., by saying "open the dashboard"), Serena provides
 # a tool for this.
 # Further information: https://oraios.github.io/serena/02-usage/060_dashboard.html
-web_dashboard: true
+web_dashboard: false
 
 # the address the web dashboard will listen on (bind address).
 web_dashboard_listen_address: 127.0.0.1
@@ -135,3 +135,9 @@ project_serena_folder_location: "$projectDir/.serena"
 
 # the list of registered project paths (updated automatically).
 projects: []
+
+# line ending convention to use when writing source files.
+# Possible values: "lf" (Unix), "crlf" (Windows), "native" (platform default).
+# Note that Serena's own files (e.g. memories and configuration files) always use native line endings.
+# This setting can be overridden on a per-project basis in project.yml files.
+line_ending: native

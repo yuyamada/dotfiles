@@ -21,6 +21,10 @@
       "Bash(gh release view:*)",
       "Bash(gh run view:*)",
       "Bash(gh workflow view:*)",
+      "Bash(gh project view:*)",
+      "Bash(gh project list:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh search *)",
       "mcp__plugin_Notion_notion__notion-search",
       "mcp__plugin_Notion_notion__notion-fetch",
       "mcp__plugin_Notion_notion__notion-get-comments",
@@ -48,7 +52,9 @@
     "Notion@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
-    "serena@claude-plugins-official": true
+    "serena@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true
   },
   "mcpServers": {
     "aws-documentation": {
