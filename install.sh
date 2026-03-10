@@ -61,6 +61,15 @@ link_file "$DOTFILES_DIR/config/serena/serena_config.yml" "$HOME/.serena/serena_
 # ~/.claude/ をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+for cmd_dir in "$DOTFILES_DIR/config/claude/commands"/*/; do
+    [ -d "$cmd_dir" ] || continue
+    cmd_name=$(basename "$cmd_dir")
+    mkdir -p "$HOME/.claude/commands/$cmd_name"
+    for f in "$cmd_dir"*; do
+        [ -f "$f" ] || continue
+        link_file "$f" "$HOME/.claude/commands/$cmd_name/$(basename "$f")"
+    done
+done
 link_file "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 
 # Cursorのグローバルルールとしてコピー
