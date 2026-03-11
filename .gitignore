@@ -4,3 +4,4 @@ config/tmux/plugins/
 
 # Claude Code
 .claude/
+.playwright-mcp/
