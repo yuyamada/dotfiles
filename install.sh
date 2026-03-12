@@ -61,13 +61,23 @@ link_file "$DOTFILES_DIR/config/serena/serena_config.yml" "$HOME/.serena/serena_
 # ~/.claude/ をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
-for cmd_dir in "$DOTFILES_DIR/config/claude/commands"/*/; do
-    [ -d "$cmd_dir" ] || continue
-    cmd_name=$(basename "$cmd_dir")
-    mkdir -p "$HOME/.claude/commands/$cmd_name"
-    for f in "$cmd_dir"*; do
-        [ -f "$f" ] || continue
-        link_file "$f" "$HOME/.claude/commands/$cmd_name/$(basename "$f")"
+for skill_dir in "$DOTFILES_DIR/config/claude/skills"/*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    target_dir="$HOME/.claude/skills/$skill_name"
+    mkdir -p "$target_dir"
+    # リンク対象のファイルとサブディレクトリを再帰的に処理
+    find "$skill_dir" -mindepth 1 -maxdepth 1 | while read -r item; do
+        item_name=$(basename "$item")
+        if [ -d "$item" ]; then
+            mkdir -p "$target_dir/$item_name"
+            for f in "$item"/*; do
+                [ -f "$f" ] || continue
+                link_file "$f" "$target_dir/$item_name/$(basename "$f")"
+            done
+        elif [ -f "$item" ]; then
+            link_file "$item" "$target_dir/$item_name"
+        fi
     done
 done
 link_file "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
