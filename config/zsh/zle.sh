@@ -34,7 +34,7 @@ bindkey -M viins '^m'  accept-line
 # bindkey -M viins '^f'  accept-line
 
 function fuzzy-history-selection() {
-    BUFFER=`history -n 1 | tac | awk '!a[$0]++' | fzf --reverse --height=40%`
+    BUFFER=`fc -l -n 1 | tac | awk '!a[$0]++' | fzf --reverse --height=~100%`
     CURSOR=$#BUFFER
     zle reset-prompt
 }
