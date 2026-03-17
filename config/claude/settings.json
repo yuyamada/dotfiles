@@ -49,15 +49,33 @@
       "~/workspace"
     ]
   },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Approve waiting\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "jq -r '\"[\\(.model.display_name)] \\(.context_window.used_percentage // 0)% context\"'"
+  },
   "enabledPlugins": {
     "commit-commands@claude-plugins-official": true,
-    "Notion@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "serena@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
-    "pr-review-toolkit@claude-plugins-official": true
+    "pr-review-toolkit@claude-plugins-official": true,
+    "notion@claude-plugins-official": true
   },
+  "outputStyle": "Explanatory",
   "mcpServers": {
     "aws-documentation": {
       "command": "uvx",
@@ -76,25 +94,7 @@
       }
     }
   },
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "permission_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "osascript -e 'display notification \"Approve waiting\" with title \"Claude Code\"'"
-          }
-        ]
-      }
-    ]
-  },
   "feedbackSurveyState": {
     "lastShownTime": 1754034689628
-  },
-  "outputStyle": "Explanatory",
-  "statusLine": {
-    "type": "command",
-    "command": "jq -r '\"[\\(.model.display_name)] \\(.context_window.used_percentage // 0)% context\"'"
   }
 }
