@@ -21,10 +21,10 @@ return {
       },
       sources = {
         explorer = {
+          hidden = true,  -- 隠しファイルを常時表示
           formatters = {
             file = {
               filename_only = true,
-              hidden = { icon = "", hl = "SnacksPickerFile" },  -- 隠しファイルを通常ファイルと同じハイライトに
             },
           },
         },
