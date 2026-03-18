@@ -64,26 +64,12 @@ link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.js
 for skill_dir in "$DOTFILES_DIR/config/claude/skills"/*/; do
     [ -d "$skill_dir" ] || continue
     skill_name=$(basename "$skill_dir")
-    target_dir="$HOME/.claude/skills/$skill_name"
-    mkdir -p "$target_dir"
-    # リンク対象のファイルとサブディレクトリを再帰的に処理
-    find "$skill_dir" -mindepth 1 -maxdepth 1 | while read -r item; do
-        item_name=$(basename "$item")
-        if [ -d "$item" ]; then
-            mkdir -p "$target_dir/$item_name"
-            for f in "$item"/*; do
-                [ -f "$f" ] || continue
-                link_file "$f" "$target_dir/$item_name/$(basename "$f")"
-            done
-        elif [ -f "$item" ]; then
-            link_file "$item" "$target_dir/$item_name"
-        fi
-    done
+    link_file "$skill_dir" "$HOME/.claude/skills/$skill_name"
 done
-link_file "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 # Cursorのグローバルルールとしてコピー
-cp "$DOTFILES_DIR/config/agents/AGENTS.md" "$HOME/.cursorrules"
+cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.cursorrules"
 
 # Cursor CLI の許可リストを同期
 if [ -f "$DOTFILES_DIR/config/cursor/permissions.json" ]; then

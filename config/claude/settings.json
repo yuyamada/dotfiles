@@ -67,7 +67,6 @@
     "command": "jq -r '\"[\\(.model.display_name)] \\(.context_window.used_percentage // 0)% context\"'"
   },
   "enabledPlugins": {
-    "commit-commands@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "serena@claude-plugins-official": true,
@@ -93,8 +92,5 @@
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
     }
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754034689628
   }
 }

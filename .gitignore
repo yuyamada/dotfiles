@@ -3,5 +3,6 @@ tmp
 config/tmux/plugins/
 
 # Claude Code
-.claude/
+.claude/*
+!.claude/CLAUDE.md
 .playwright-mcp/
