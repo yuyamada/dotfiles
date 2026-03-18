@@ -72,7 +72,8 @@
     "serena@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "notion@claude-plugins-official": true
+    "notion@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
   },
   "outputStyle": "Explanatory",
   "mcpServers": {
