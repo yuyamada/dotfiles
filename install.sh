@@ -61,6 +61,7 @@ link_file "$DOTFILES_DIR/config/serena/serena_config.yml" "$HOME/.serena/serena_
 # ~/.claude/ をリンク
 mkdir -p "$HOME/.claude"
 link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+link_file "$DOTFILES_DIR/config/claude/statusline.py" "$HOME/.claude/statusline.py"
 for skill_dir in "$DOTFILES_DIR/config/claude/skills"/*/; do
     [ -d "$skill_dir" ] || continue
     skill_name=$(basename "$skill_dir")
