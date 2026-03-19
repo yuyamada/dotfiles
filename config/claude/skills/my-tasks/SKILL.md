@@ -44,4 +44,5 @@ gh search issues --assignee=@me --state=open --json repository,title,number,url,
    - レビュー待ち PR
    - Project 別の In Review アイテム
    - アサイン済み Issue
+   - **注意**: タイトルに `[`, `]`, `(`, `)` が含まれる場合、Markdown のリンク記法と競合するため、タイトルはリンクにせず URL を別列に表示する
 4. 最後に合計件数を表示する
