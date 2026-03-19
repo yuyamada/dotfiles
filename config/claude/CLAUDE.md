@@ -56,3 +56,8 @@
 - **Enforce Invariants Mechanically**: Documentation alone cannot keep an agent-generated codebase coherent. Enforce strict invariants at boundaries (e.g., parsing data shapes with tools like Zod). Don't micromanage internal implementations, but strictly require input/output validation.
 - **Predictable & Rigid Structure**: Agents are most effective with strict boundaries. Divide applications into a fixed set of layers per business domain, and enforce valid dependency directions and permissible edges.
 - **Automated Verification**: Enforce architectural constraints mechanically via custom linters and structural tests. Let the agents write their own linters to ensure consistency at scale.
+
+## Skill Creation
+
+- Write all skills in English
+- Save new skills to `~/workspace/nikkei-conf/config/claude/skills/` and create a symlink from `~/.claude/skills/<name>`
