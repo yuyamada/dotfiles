@@ -44,6 +44,10 @@ gh pr view <number> --json title,body
 ### Step 3: Generate and confirm
 
 Draft a PR title and body based on:
+
+The title must follow Conventional Commits format: `<type>(<scope>): <description>`
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`
+Scope is optional. Description is lowercase, no period at end. Keep it under 72 chars.
 ```bash
 git log origin/$(git branch --show-current)..HEAD --oneline
 git diff origin/$(git branch --show-current)..HEAD
