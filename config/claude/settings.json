@@ -64,6 +64,16 @@
             "command": "bash -c '{ cat; echo; } >> ~/.claude/tool-access.log' 2>/dev/null || true"
           }
         ]
+      },
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "Notification": [
@@ -73,6 +83,28 @@
           {
             "type": "command",
             "command": "osascript -e 'display notification \"Approve waiting\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
           }
         ]
       }
@@ -113,7 +145,9 @@
         "github.com",
         "api.github.com",
         "objects.githubusercontent.com",
-        "raw.githubusercontent.com"
+        "raw.githubusercontent.com",
+        "registry.npmjs.org",
+        "api.npmjs.org"
       ]
     },
     "filesystem": {
