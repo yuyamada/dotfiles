@@ -98,6 +98,17 @@
   },
   "extraKnownMarketplaces": {},
   "outputStyle": "Explanatory",
+  "sandbox": {
+    "enabled": true,
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "api.github.com",
+        "objects.githubusercontent.com",
+        "raw.githubusercontent.com"
+      ]
+    }
+  },
   "mcpServers": {
     "aws-documentation": {
       "command": "uvx",
