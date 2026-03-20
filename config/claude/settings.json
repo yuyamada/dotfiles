@@ -29,6 +29,8 @@
       "Bash(git log:*)",
       "Bash(git branch:*)",
       "Bash(jq:*)",
+      "Bash(wc:*)",
+      "Bash(tail:*)",
       "Read(~/.claude/skills/my-tasks/*)",
       "Bash(~/.claude/skills/my-tasks/scripts/*)",
       "mcp__plugin_Notion_notion__notion-search",
@@ -100,7 +102,7 @@
   "sandbox": {
     "enabled": true,
     "filesystem": {
-      "allowWrite": [".git/config", ".git/**"]
+      "allowWrite": [".git/config", ".git/**", "~/.claude/skills/**"]
     },
     "network": {
       "allowedDomains": [
