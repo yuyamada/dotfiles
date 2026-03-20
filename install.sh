@@ -69,6 +69,7 @@ for skill_dir in "$DOTFILES_DIR/config/claude/skills"/*/; do
 done
 link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_file "$DOTFILES_DIR/config/claude/agents" "$HOME/.claude/agents"
+link_file "$DOTFILES_DIR/config/claude/rules" "$HOME/.claude/rules"
 
 # Cursorのグローバルルールとしてコピー
 cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.cursorrules"
