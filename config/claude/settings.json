@@ -49,9 +49,6 @@
       "mcp__google-developer-knowledge__get_document",
       "mcp__google-developer-knowledge__batch_get_documents"
     ],
-    "additionalDirectories": [
-      "~/workspace"
-    ]
   },
   "hooks": {
     "PostToolUse": [
