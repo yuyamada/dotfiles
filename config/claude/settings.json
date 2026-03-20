@@ -89,27 +89,38 @@
     "playwright@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "notion@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
-    "memsearch@memsearch-plugins": true
+    "code-review@claude-code-plugins": true,
+    "ralph-loop@claude-plugins-official": true
   },
-  "extraKnownMarketplaces": {},
+  "extraKnownMarketplaces": {
+    "claude-code-plugins": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:anthropics/claude-code"
+      }
+    }
+  },
   "outputStyle": "Explanatory",
   "sandbox": {
     "enabled": true,
-    "filesystem": {
-      "allowWrite": [".git/config", ".git/**", "~/.claude/skills/**"]
-    },
     "network": {
       "allowedDomains": [
         "github.com",
         "api.github.com",
         "objects.githubusercontent.com",
         "raw.githubusercontent.com"
+      ]
+    },
+    "filesystem": {
+      "allowWrite": [
+        ".git/config",
+        ".git/**",
+        "~/.claude/skills/**"
       ]
     }
   },
