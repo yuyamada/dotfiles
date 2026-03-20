@@ -1,8 +1,8 @@
 ---
 name: parallel-review
 description: Orchestrate parallel sub-agent review of current git changes. Launches
-  specialist agents concurrently and aggregates results. Currently runs security-reviewer.
-  Add more agents to config/claude/agents/ to extend coverage.
+  specialist agents concurrently and aggregates results. Runs security-reviewer,
+  performance-reviewer, and test-coverage agents in parallel.
 allowed-tools:
 - Bash
 - Agent
@@ -24,11 +24,13 @@ git diff origin/$(git branch --show-current)..HEAD 2>/dev/null
 ```
 If still empty, tell the user: "No changes detected. Make some commits or stage changes first."
 
-2. Launch sub-agents in parallel using the Agent tool. Pass the full diff as context
-   to each agent with a clear instruction.
+2. Launch all three sub-agents **in parallel** using the Agent tool. Pass the full diff
+   as context to each agent with a clear instruction.
 
-   Current agents to launch:
+   Agents to launch simultaneously:
    - **security-reviewer** — detect security vulnerabilities in the diff
+   - **performance-reviewer** — detect performance issues and regressions in the diff
+   - **test-coverage** — identify test coverage gaps and missing edge cases in the diff
 
    To add more agents: create `config/claude/agents/<name>.md` and add them to this list.
 
@@ -43,8 +45,15 @@ Diff:   [X files changed, Y insertions, Z deletions]
 --- SECURITY ---
 [security-reviewer output]
 
+--- PERFORMANCE ---
+[performance-reviewer output]
+
+--- TEST COVERAGE ---
+[test-coverage output]
+
 --- VERDICT ---
 [PASS if all agents pass, FAIL if any agent fails, NEEDS_REVIEW if uncertain]
+Overall: [1-2 sentence summary of the most important findings]
 ```
 
 ## Notes
