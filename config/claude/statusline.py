@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, sys, subprocess, os
+import json, re, sys, subprocess, os
 
 data = json.load(sys.stdin)
 
@@ -19,7 +19,6 @@ def short_path(path):
     abbr = re.sub(r"/([^/])[^/]*", r"/\1", head)
     return f"{abbr}/{tail}"
 
-import re
 dir_name = short_path(current_dir)
 
 try:

@@ -97,6 +97,9 @@
   "outputStyle": "Explanatory",
   "sandbox": {
     "enabled": true,
+    "filesystem": {
+      "allowWrite": [".git/config"]
+    },
     "network": {
       "allowedDomains": [
         "github.com",
