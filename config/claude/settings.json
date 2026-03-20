@@ -47,7 +47,9 @@
       "mcp__aws-documentation__recommend",
       "mcp__google-developer-knowledge__search_documents",
       "mcp__google-developer-knowledge__get_document",
-      "mcp__google-developer-knowledge__batch_get_documents"
+      "mcp__google-developer-knowledge__batch_get_documents",
+      "Read(~/.claude/skills/retrospect/*)",
+      "Read(~/.claude/projects/**)"
     ]
   },
   "hooks": {
@@ -98,7 +100,7 @@
   "sandbox": {
     "enabled": true,
     "filesystem": {
-      "allowWrite": [".git/config"]
+      "allowWrite": [".git/config", ".git/**"]
     },
     "network": {
       "allowedDomains": [
