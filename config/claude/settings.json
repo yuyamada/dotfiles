@@ -48,7 +48,7 @@
       "mcp__google-developer-knowledge__search_documents",
       "mcp__google-developer-knowledge__get_document",
       "mcp__google-developer-knowledge__batch_get_documents"
-    ],
+    ]
   },
   "hooks": {
     "PostToolUse": [
