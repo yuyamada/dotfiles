@@ -7,3 +7,4 @@ config/tmux/plugins/
 .claude/*
 !.claude/CLAUDE.md
 .playwright-mcp/
+.memsearch/
