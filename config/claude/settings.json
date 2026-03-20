@@ -28,6 +28,7 @@
       "Bash(sed:*)",
       "Bash(git log:*)",
       "Bash(git branch:*)",
+      "Bash(jq:*)",
       "Read(~/.claude/skills/my-tasks/*)",
       "Bash(~/.claude/skills/my-tasks/scripts/*)",
       "mcp__plugin_Notion_notion__notion-search",
