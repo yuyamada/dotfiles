@@ -112,10 +112,10 @@ def main() -> None:
     ranked = sorted(stars.items(), key=lambda x: -x[1])
     top100 = ranked[:100]
 
-    print(f"\n{'Rank':>4}  {'Stars':>7}  Repository")
+    print(f"\n{'Rank':>4}  {'Stars':>7}  URL")
     print("-" * 50)
     for rank, (repo, count) in enumerate(top100, 1):
-        print(f"{rank:>4}. {count:>7,} ⭐  {repo}")
+        print(f"{rank:>4}. {count:>7,} ⭐  https://github.com/{repo}")
 
 
 if __name__ == "__main__":
