@@ -1,5 +1,6 @@
 tmp
 .DS_Store
+.worktrees/
 config/tmux/plugins/
 
 # Claude Code
