@@ -4,6 +4,13 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(sudo *)"
+    ],
     "allow": [
       "List:*",
       "Read:*",
@@ -173,7 +180,8 @@
         ".git/**",
         "~/.claude/skills/**",
         "~/workspace/dotfiles/.git/config",
-        "~/workspace/dotfiles/.git/**"
+        "~/workspace/dotfiles/.git/**",
+        ".planning/**"
       ]
     }
   },
