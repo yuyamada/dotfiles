@@ -7,12 +7,12 @@
 
 ### Permissions
 
-- [ ] **PERM-01**: `git add`, `git commit`, `git push`, `git checkout`, `git worktree` が承認なしで実行できる
-- [ ] **PERM-02**: `gh pr create`, `gh pr edit`, `gh run watch`, `gh run view` が承認なしで実行できる
-- [ ] **PERM-03**: `npm`, `npx`, `node`, `yarn`, `pnpm`, `bun` が承認なしで実行できる
-- [ ] **PERM-04**: `deny` ブロックに `git push --force`, `rm -rf`, `sudo`, `curl|bash` が明示登録されている
+- [x] **PERM-01**: `git add`, `git commit`, `git push`, `git checkout`, `git worktree` が承認なしで実行できる
+- [x] **PERM-02**: `gh pr create`, `gh pr edit`, `gh run watch`, `gh run view` が承認なしで実行できる
+- [x] **PERM-03**: `npm`, `npx`, `node`, `yarn`, `pnpm`, `bun` が承認なしで実行できる
+- [x] **PERM-04**: `deny` ブロックに `git push --force`, `rm -rf`, `sudo`, `curl|bash` が明示登録されている
 - [x] **PERM-05**: 既存の11個の `:*` 非推奨構文が `space *` 形式に移行されている
-- [ ] **PERM-06**: `.planning/**` がサブエージェントからも書き込み可能 (sandbox allowWrite 拡張)
+- [x] **PERM-06**: `.planning/**` がサブエージェントからも書き込み可能 (sandbox allowWrite 拡張)
 
 ### Skills
 
@@ -49,12 +49,12 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PERM-01 | Phase 1 | Pending |
-| PERM-02 | Phase 1 | Pending |
-| PERM-03 | Phase 1 | Pending |
-| PERM-04 | Phase 1 | Pending |
+| PERM-01 | Phase 1 | Complete |
+| PERM-02 | Phase 1 | Complete |
+| PERM-03 | Phase 1 | Complete |
+| PERM-04 | Phase 1 | Complete |
 | PERM-05 | Phase 1 | Complete |
-| PERM-06 | Phase 1 | Pending |
+| PERM-06 | Phase 1 | Complete |
 | SKIL-01 | Phase 2 | Pending |
 | SKIL-02 | Phase 2 | Pending |
 | DISC-01 | Phase 3 | Pending |

@@ -12,7 +12,7 @@ Three phases to eliminate every human approval prompt from the task-to-PR cycle.
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Permissions Baseline** - Expand allowedTools for git/gh/npm, fix deprecated syntax, extend sandbox write paths
+- [x] **Phase 1: Permissions Baseline** - Expand allowedTools for git/gh/npm, fix deprecated syntax, extend sandbox write paths (completed 2026-03-21)
 - [ ] **Phase 2: Skill Auto Flags** - Add `--auto` flag to commit and pr skills to remove confirmation gates
 - [ ] **Phase 3: Discoverability** - Write agent selection guide in rules/agents.md and wire it into CLAUDE.md
 
@@ -27,11 +27,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `git push --force`, `rm -rf`, and `sudo` are explicitly listed in the deny block; `curl|bash` remains approval-prompted (not denied) per Phase 1 locked decision
   3. All 22 deprecated `:*` entries in settings.json have been replaced with space-separated syntax
   4. Subagents writing to `.planning/**` succeed without sandbox permission errors
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Migrate all 22 deprecated `:*` syntax entries to space-separated form
-- [ ] 01-02-PLAN.md — Add git/gh/npm allow entries, create deny block, extend sandbox allowWrite
+- [x] 01-02-PLAN.md — Add git/gh/npm allow entries, create deny block, extend sandbox allowWrite
 
 ### Phase 2: Skill Auto Flags
 **Goal**: `commit` and `pr` skills execute end-to-end without stopping for confirmation when `--auto` is passed
@@ -68,6 +68,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Permissions Baseline | 0/2 | Not started | - |
+| 1. Permissions Baseline | 2/2 | Complete   | 2026-03-21 |
 | 2. Skill Auto Flags | 0/2 | Not started | - |
 | 3. Discoverability | 0/2 | Not started | - |

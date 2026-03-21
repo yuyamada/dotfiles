@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-21T02:36:39.488Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-21T02:42:12.719Z"
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -47,6 +47,7 @@ Plan: 2 of 2
 
 *Updated after each plan completion*
 | Phase 01-permissions-baseline P01 | 1 | 1 tasks | 1 files |
+| Phase 01-permissions-baseline P02 | 61 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -58,6 +59,9 @@ Recent decisions affecting current work:
 - Phase 1: Permissions scoped at project level (not global ~/.claude/settings.json) to limit blast radius
 - Phase 1: Deprecated `:*` syntax must be migrated before expanding any other permissions (RCE risk)
 - [Phase 01-permissions-baseline]: Colon-wildcard syntax (Bash(command:*)) is deprecated and must be migrated before any new permissions are added to avoid RCE risk
+- [Phase 01-permissions-baseline]: git merge/rebase/stash excluded from allow — GSD workflow does not require them
+- [Phase 01-permissions-baseline]: curl|bash left as approval-prompted rather than denied — not unconditionally dangerous
+- [Phase 01-permissions-baseline]: deny block enforcement has known bug (GitHub #27040); gsd-prompt-guard.js PreToolUse hook provides backup enforcement
 
 ### Pending Todos
 
@@ -69,6 +73,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T02:36:39.485Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-03-21T02:42:12.716Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
