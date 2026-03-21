@@ -19,9 +19,22 @@ allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git push:*), Bash(git bra
 Create a draft PR that matches this repo's style. The key things: find the right
 format, generate good content, and confirm with the user before creating.
 
+## Auto mode
+
+If `--auto` was passed, skip all confirmation gates and proceed autonomously:
+
+- **Push**: If there are unpushed commits, push immediately with `git push -u origin <branch>`. Do not ask.
+- **PR format**: Find the template or check recent PRs exactly as in interactive mode (no gate to skip here).
+- **Title and body**: Generate a Conventional Commits title (`<type>(<scope>): <description>`, lowercase, no period, under 72 chars) and body from the commit history and diff. Create the draft PR immediately without showing for review.
+- **Browser**: Do not ask about opening in browser. Just display the PR URL.
+
+When `--auto` is NOT passed, follow the interactive steps below unchanged.
+
 ## Steps
 
 ### Step 1: Check for unpushed commits
+
+> **Auto mode**: If there are unpushed commits, push immediately with `git push -u origin <branch>`. Skip to Step 2.
 
 If there are unpushed commits (see above), show them to the user and ask whether
 to push first:
@@ -42,6 +55,8 @@ gh pr view <number> --json title,body
 ```
 
 ### Step 3: Generate and confirm
+
+> **Auto mode**: Generate the title and body, then skip directly to Step 4 (do not show for review).
 
 Draft a PR title and body based on:
 
@@ -66,6 +81,8 @@ gh pr create --draft --title "<title>" --body "<body>"
 ```
 
 ### Step 5: Show the link
+
+> **Auto mode**: Display the PR URL. Do not ask about opening in browser. Done.
 
 Display the PR URL clearly. Ask if the user wants to open it in the browser:
 ```bash
