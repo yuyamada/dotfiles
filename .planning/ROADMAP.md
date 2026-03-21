@@ -24,8 +24,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Requirements**: PERM-01, PERM-02, PERM-03, PERM-04, PERM-05, PERM-06
 **Success Criteria** (what must be TRUE):
   1. Running `git commit`, `git push`, `git worktree`, `gh pr create`, `npm test` in a GSD workflow produces zero approval prompts
-  2. `git push --force`, `rm -rf`, `sudo`, and `curl|bash` are explicitly listed in the deny block and cannot be approved even in yolo mode
-  3. All 11 deprecated `:*` entries in settings.json have been replaced with space-separated syntax
+  2. `git push --force`, `rm -rf`, and `sudo` are explicitly listed in the deny block; `curl|bash` remains approval-prompted (not denied) per Phase 1 locked decision
+  3. All 22 deprecated `:*` entries in settings.json have been replaced with space-separated syntax
   4. Subagents writing to `.planning/**` succeed without sandbox permission errors
 **Plans:** 2 plans
 

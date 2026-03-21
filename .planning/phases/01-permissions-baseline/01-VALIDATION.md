@@ -42,8 +42,8 @@ created: 2026-03-21
 | 1-02-01 | 01-02 | 2 | PERM-01 | smoke | `jq '.permissions.allow \| map(select(startswith("Bash(git "))) \| length' config/claude/settings.json` | ✅ | ⬜ pending |
 | 1-02-02 | 01-02 | 2 | PERM-02 | smoke | `jq '.permissions.allow \| map(select(test("gh pr create\|gh pr edit\|gh run watch"))) \| length' config/claude/settings.json` | ✅ | ⬜ pending |
 | 1-02-03 | 01-02 | 2 | PERM-03 | smoke | `jq '.permissions.allow \| map(select(test("Bash\\(npm \|Bash\\(npx \|Bash\\(node \|Bash\\(yarn \|Bash\\(pnpm \|Bash\\(bun "))) \| length' config/claude/settings.json` | ✅ | ⬜ pending |
-| 1-03-01 | 01-03 | 2 | PERM-04 | smoke | `jq '.permissions.deny \| length' config/claude/settings.json` | ✅ | ⬜ pending |
-| 1-04-01 | 01-04 | 2 | PERM-06 | smoke | `jq '.sandbox.filesystem.allowWrite \| map(select(contains(".planning"))) \| length' config/claude/settings.json` | ✅ | ⬜ pending |
+| 1-02-04 | 01-02 | 2 | PERM-04 | smoke | `jq '.permissions.deny \| length' config/claude/settings.json` | ✅ | ⬜ pending |
+| 1-02-05 | 01-02 | 2 | PERM-06 | smoke | `jq '.sandbox.filesystem.allowWrite \| map(select(contains(".planning"))) \| length' config/claude/settings.json` | ✅ | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
