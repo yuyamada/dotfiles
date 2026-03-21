@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Migrate all 22 deprecated `:*` syntax entries to space-separated form
+- [x] 01-01-PLAN.md — Migrate all 22 deprecated `:*` syntax entries to space-separated form
 - [ ] 01-02-PLAN.md — Add git/gh/npm allow entries, create deny block, extend sandbox allowWrite
 
 ### Phase 2: Skill Auto Flags
