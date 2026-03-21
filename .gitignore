@@ -8,3 +8,6 @@ config/tmux/plugins/
 !.claude/CLAUDE.md
 .playwright-mcp/
 .memsearch/
+
+# Serena (auto-modified by MCP server)
+config/serena/serena_config.yml
