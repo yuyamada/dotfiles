@@ -41,11 +41,11 @@ Plans:
   1. `commit --auto` stages specified files, generates a commit message, commits, and pushes without any interactive confirmation step
   2. `pr --auto` pushes the branch and creates a draft PR with an auto-generated title and body without any confirmation step
   3. When `--auto` is NOT passed, existing interactive behavior is unchanged
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Add `--auto` flag to commit skill: skip branch/message/push confirmation gates, keep explicit file staging
-- [ ] 02-02-PLAN.md — Add `--auto` flag to pr skill: skip push confirmation and content review gate, auto-generate title/body
+- [x] 02-02-PLAN.md — Add `--auto` flag to pr skill: skip push confirmation and content review gate, auto-generate title/body
 
 ### Phase 3: Discoverability
 **Goal**: Users know which agent to reach for and when, making the 22-agent suite actively useful rather than invisible
@@ -69,5 +69,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Permissions Baseline | 2/2 | Complete   | 2026-03-21 |
-| 2. Skill Auto Flags | 0/2 | Not started | - |
+| 2. Skill Auto Flags | 1/2 | In Progress|  |
 | 3. Discoverability | 0/2 | Not started | - |

@@ -17,7 +17,7 @@
 ### Skills
 
 - [ ] **SKIL-01**: `commit` スキルが `--auto` フラグ対応 — ブランチ確認・メッセージ確認・push確認をスキップ
-- [ ] **SKIL-02**: `pr` スキルが `--auto` フラグ対応 — push確認・内容確認をスキップし自動でdraft PR作成
+- [x] **SKIL-02**: `pr` スキルが `--auto` フラグ対応 — push確認・内容確認をスキップし自動でdraft PR作成
 
 ### Discoverability
 
@@ -56,7 +56,7 @@
 | PERM-05 | Phase 1 | Complete |
 | PERM-06 | Phase 1 | Complete |
 | SKIL-01 | Phase 2 | Pending |
-| SKIL-02 | Phase 2 | Pending |
+| SKIL-02 | Phase 2 | Complete |
 | DISC-01 | Phase 3 | Pending |
 | DISC-02 | Phase 3 | Pending |
 
