@@ -41,11 +41,11 @@ Plans:
   1. `commit --auto` stages specified files, generates a commit message, commits, and pushes without any interactive confirmation step
   2. `pr --auto` pushes the branch and creates a draft PR with an auto-generated title and body without any confirmation step
   3. When `--auto` is NOT passed, existing interactive behavior is unchanged
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 02-01: Add `--auto` flag to commit skill — skip branch/message/push confirmation gates, keep explicit file staging
-- [ ] 02-02: Add `--auto` flag to pr skill — skip push confirmation and content review gate, auto-generate title/body
+- [ ] 02-01-PLAN.md — Add `--auto` flag to commit skill: skip branch/message/push confirmation gates, keep explicit file staging
+- [ ] 02-02-PLAN.md — Add `--auto` flag to pr skill: skip push confirmation and content review gate, auto-generate title/body
 
 ### Phase 3: Discoverability
 **Goal**: Users know which agent to reach for and when, making the 22-agent suite actively useful rather than invisible
