@@ -65,4 +65,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 — Phase 01 complete (permissions baseline established)*
+*Last updated: 2026-03-21 — Phase 02 complete (commit/pr skills now support `--auto` flag for orchestrator-driven non-interactive execution; SKIL-01, SKIL-02 validated)*
