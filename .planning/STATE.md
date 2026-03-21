@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-21T03:04:23.029Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-21T03:05:17.747Z"
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # Project State
@@ -49,6 +49,7 @@ Plan: 2 of 2
 | Phase 01-permissions-baseline P01 | 1 | 1 tasks | 1 files |
 | Phase 01-permissions-baseline P02 | 61 | 2 tasks | 1 files |
 | Phase 02-skill-auto-flags P02 | 96 | 1 tasks | 1 files |
+| Phase 02-skill-auto-flags P01 | 5 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,8 @@ Recent decisions affecting current work:
 - [Phase 01-permissions-baseline]: deny block enforcement has known bug (GitHub #27040); gsd-prompt-guard.js PreToolUse hook provides backup enforcement
 - [Phase 02-skill-auto-flags]: Auto mode section placed after Overview, before Steps, to give callers a single reference point for auto behavior
 - [Phase 02-skill-auto-flags]: Blockquotes used additively so interactive and auto paths coexist in same step descriptions
+- [Phase 02-skill-auto-flags]: --auto flag is prose-based in commit skill: Claude reads conditional and follows auto or interactive path
+- [Phase 02-skill-auto-flags]: D-01: unrelated files excluded silently in auto mode, D-02: branch auto-created from work context on default branch
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T03:04:23.026Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-21T03:05:17.744Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

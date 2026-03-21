@@ -44,7 +44,7 @@ Plans:
 **Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Add `--auto` flag to commit skill: skip branch/message/push confirmation gates, keep explicit file staging
+- [x] 02-01-PLAN.md — Add `--auto` flag to commit skill: skip branch/message/push confirmation gates, keep explicit file staging
 - [x] 02-02-PLAN.md — Add `--auto` flag to pr skill: skip push confirmation and content review gate, auto-generate title/body
 
 ### Phase 3: Discoverability
