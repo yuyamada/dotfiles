@@ -58,7 +58,7 @@ everything belongs to the same change.
 > **Auto mode**: Generate a Conventional Commits message and commit immediately. Skip to Step 4.
 
 Check recent commits to see if the repo uses a convention (e.g. `feat:`, `fix:`).
-Generate a commit message that explains *why* the change was made. Show it to the user and confirm before committing.
+Generate a commit message that explains *why* the change was made. Show it to the user and commit immediately — no confirmation needed.
 
 ```bash
 git commit -m "<message>"
