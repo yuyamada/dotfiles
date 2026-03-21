@@ -27,13 +27,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `git push --force`, `rm -rf`, `sudo`, and `curl|bash` are explicitly listed in the deny block and cannot be approved even in yolo mode
   3. All 11 deprecated `:*` entries in settings.json have been replaced with space-separated syntax
   4. Subagents writing to `.planning/**` succeed without sandbox permission errors
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01: Expand `allowedTools` — add git write commands, gh commands, npm/npx/node/yarn/pnpm/bun
-- [ ] 01-02: Add explicit deny block entries for dangerous commands
-- [ ] 01-03: Migrate all 11 deprecated `:*` syntax entries to space-separated form
-- [ ] 01-04: Add `.planning/**` to project-level sandbox `allowWrite`
+- [ ] 01-01-PLAN.md — Migrate all 22 deprecated `:*` syntax entries to space-separated form
+- [ ] 01-02-PLAN.md — Add git/gh/npm allow entries, create deny block, extend sandbox allowWrite
 
 ### Phase 2: Skill Auto Flags
 **Goal**: `commit` and `pr` skills execute end-to-end without stopping for confirmation when `--auto` is passed
@@ -70,6 +68,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Permissions Baseline | 0/4 | Not started | - |
+| 1. Permissions Baseline | 0/2 | Not started | - |
 | 2. Skill Auto Flags | 0/2 | Not started | - |
 | 3. Discoverability | 0/2 | Not started | - |
