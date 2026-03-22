@@ -185,13 +185,20 @@
     "chrome-devtools-mcp@claude-plugins-official": true,
     "code-review@claude-code-plugins": true,
     "ralph-loop@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true
+    "gopls-lsp@claude-plugins-official": true,
+    "caffeinate@hiropon-plugins": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
       "source": {
         "source": "git",
         "url": "git@github.com:anthropics/claude-code"
+      }
+    },
+    "hiropon-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "hiroro-work/claude-plugins"
       }
     }
   },
