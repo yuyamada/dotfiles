@@ -139,7 +139,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/bark-wrapper.sh"
+            "command": "~/.claude/hooks/bark-notify.sh"
           }
         ]
       }
