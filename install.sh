@@ -70,6 +70,12 @@ done
 link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_file "$DOTFILES_DIR/config/claude/agents" "$HOME/.claude/agents"
 link_file "$DOTFILES_DIR/config/claude/rules" "$HOME/.claude/rules"
+mkdir -p "$HOME/.claude/hooks"
+for hook_file in "$DOTFILES_DIR/config/claude/hooks"/*; do
+    [ -f "$hook_file" ] || continue
+    hook_name=$(basename "$hook_file")
+    link_file "$hook_file" "$HOME/.claude/hooks/$hook_name"
+done
 
 # Cursorのグローバルルールとしてコピー
 cp "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.cursorrules"
