@@ -37,13 +37,21 @@ if [ -d "$DOTFILES_DIR/config" ]; then
     for dir in "$DOTFILES_DIR/config"/*; do
         if [ -d "$dir" ]; then
             dirname=$(basename "$dir")
-            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ]; then
+            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ] || [ "$dirname" = "git" ]; then
                 continue
             fi
             link_file "$dir" "$HOME/.config/$dirname"
         fi
     done
 fi
+
+# ~/.config/git/ のファイルを個別にリンク（ディレクトリが既存の場合に備えてファイル単位で管理）
+mkdir -p "$HOME/.config/git"
+for git_file in "$DOTFILES_DIR/config/git"/*; do
+    [ -f "$git_file" ] || continue
+    git_filename=$(basename "$git_file")
+    link_file "$git_file" "$HOME/.config/git/$git_filename"
+done
 
 # .zshrc をリンク
 if [ -f "$DOTFILES_DIR/config/zsh/zshrc" ]; then

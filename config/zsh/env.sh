@@ -1,5 +1,6 @@
 export LANG=en_US.utf-8
 export EDITOR=nvim
+export LESS=FRX
 
 typeset -U path PATH
 
