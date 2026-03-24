@@ -8,21 +8,19 @@ set -euo pipefail
 # __worker モード: alerter 実行とアクション処理（デタッチプロセス）
 # ──────────────────────────────────────────────────
 if [ "${1:-}" = "__worker" ]; then
-    # CCN_CHOICES (改行区切り "num\tlabel") → alerter --actions カンマ区切り文字列
+    # CCN_LABEL_MAP (改行区切り "label=num") → alerter --actions カンマ区切り文字列
+    # macOS は先頭エントリを "Show" にリネームするためダミー "Teleport" を先頭に挿入
     ACTIONS=""
-    while IFS=$'\t' read -r num label; do
-        [ -n "$num" ] || continue
-        label=$(printf '%s' "$label" | tr ',' ';' | cut -c1-50)
-        label="${num}: ${label}"
+    while IFS='=' read -r label num; do
+        [ -n "$label" ] || continue
         ACTIONS="${ACTIONS:+${ACTIONS},}${label}"
-    done <<< "${CCN_CHOICES:-}"
+    done <<< "${CCN_LABEL_MAP:-}"
     [ -z "$ACTIONS" ] && ACTIONS="Open"
 
     ALERTER_ARGS=(
         --title "${CCN_TITLE:-Claude Code}"
         --message "${CCN_BODY:-Claude is waiting for your input}"
         --timeout 120
-        --close-label "Dismiss"
         --actions "$ACTIONS"
     )
     [ -n "${CCN_SUBTITLE:-}" ] && ALERTER_ARGS+=(--subtitle "$CCN_SUBTITLE")
@@ -33,19 +31,19 @@ if [ "${1:-}" = "__worker" ]; then
     tmux_cmd() { tmux -S "${CCN_SOCK}" "$@" 2>/dev/null || true; }
 
     case "$RESULT" in
-        "@CONTENTCLICKED"|Open)
-            # 本体クリック or "Open" ボタン → テレポート
+        "@CONTENTCLICKED"|Show|Open)
+            # 本体クリック / Show (=Teleport ダミー) / Open → テレポート
             open -b "com.mitchellh.ghostty"
             tmux_cmd switch-client -t "${CCN_SESSION}"
             tmux_cmd select-window -t "${CCN_SESSION}:${CCN_WIN_INDEX}"
             tmux_cmd select-pane -t "${CCN_PANE}"
             ;;
-        Dismiss|"@TIMEOUT"|"@CLOSED")
+        "@TIMEOUT"|"@CLOSED")
             : # 何もしない
             ;;
         *)
-            # 番号付きラベル ("1: Yes" など) → 先頭の数字を抽出して tmux に送信
-            NUM=$(printf '%s' "$RESULT" | sed -nE 's/^([0-9]+):.*/\1/p')
+            # 簡略ラベル ("Yes" / "Yes always allow" / "No") → LABEL_MAP で番号を逆引き
+            NUM=$(printf '%s\n' "${CCN_LABEL_MAP:-}" | sed -n "s/^${RESULT}=//p" | head -1)
             if [ -n "$NUM" ]; then
                 tmux_cmd send-keys -t "${CCN_PANE}" -l "$NUM"
                 tmux_cmd send-keys -t "${CCN_PANE}" Enter
@@ -115,7 +113,26 @@ BODY="${TOOL_DISPLAY:-Claude is waiting for your input}"
 SNAPSHOT=$(tmux capture-pane -p -e -J -t "$TMUX_PANE" -S -120 2>/dev/null || echo "")
 CHOICES=$(printf '%s\n' "$SNAPSHOT" \
     | perl -pe 's/\e\[[0-9;?]*[@-~]//g; s/\r//g' \
-    | sed -nE 's/^[[:space:]]*([0-9]+)\.[[:space:]]+(.*)$/\1\t\2/p')
+    | sed -nE 's/^[^0-9]*([0-9]+)\.[[:space:]]+(.*)$/\1\t\2/p')
+
+# 選択肢ラベルを簡略化して "label=num" マッピングを構築
+# 元の長いテキスト（"Yes; and don't ask again for: ..."）をキーワードで短縮
+LABEL_MAP=""
+while IFS=$'\t' read -r num label; do
+    [ -n "$num" ] || continue
+    label_lower=$(printf '%s' "$label" | tr '[:upper:]' '[:lower:]')
+    case "$label_lower" in
+        no|no\ *|no,*|no;*)
+            simple="No" ;;
+        yes\ *|yes;*|yes,*)
+            # "yes" より長い = "don't ask again" 系
+            simple="Yes, don't ask again" ;;
+        *)
+            simple="Yes" ;;
+    esac
+    LABEL_MAP="${LABEL_MAP:+${LABEL_MAP}
+}${simple}=${num}"
+done <<< "$CHOICES"
 
 # alerter が使えるか確認
 ALERTER_BIN=$(command -v alerter 2>/dev/null || echo "")
@@ -135,6 +152,6 @@ env \
     CCN_TITLE="Claude Code — Needs Input" \
     CCN_BODY="$BODY" \
     CCN_SUBTITLE="$SUBTITLE" \
-    CCN_CHOICES="$CHOICES" \
+    CCN_LABEL_MAP="$LABEL_MAP" \
     nohup "$0" __worker >/dev/null 2>&1 &
 exit 0
