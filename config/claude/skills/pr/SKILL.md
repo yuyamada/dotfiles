@@ -11,7 +11,7 @@ allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git push:*), Bash(git bra
 ## Current state
 
 - Branch: !`git branch --show-current`
-- Unpushed commits: !`git log origin/$(git branch --show-current)..HEAD --oneline 2>/dev/null || echo "none"`
+- Unpushed commits: !`git log @{u}..HEAD --oneline 2>/dev/null || echo "none"`
 - PR template: !`cat .github/pull_request_template.md 2>/dev/null || echo "none"`
 
 ## Overview
@@ -64,8 +64,8 @@ The title must follow Conventional Commits format: `<type>(<scope>): <descriptio
 Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`
 Scope is optional. Description is lowercase, no period at end. Keep it under 72 chars.
 ```bash
-git log origin/$(git branch --show-current)..HEAD --oneline
-git diff origin/$(git branch --show-current)..HEAD
+git log @{u}..HEAD --oneline
+git diff @{u}..HEAD
 ```
 
 If a template exists, fill in each section using the commit history and diff — don't

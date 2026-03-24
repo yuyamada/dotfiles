@@ -57,11 +57,22 @@ everything belongs to the same change.
 
 > **Auto mode**: Generate a Conventional Commits message and commit immediately. Skip to Step 4.
 
-Check recent commits to see if the repo uses a convention (e.g. `feat:`, `fix:`).
-Generate a commit message that explains *why* the change was made. Show it to the user and commit immediately — no confirmation needed.
+Always use [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<scope>): <description>
+```
+
+Common types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`
+
+The scope is optional but helpful when the change targets a specific component
+or environment (e.g. `chore(lab-apple): ...`, `feat(auth): ...`).
+
+Generate a message that explains *why* the change was made, not just what.
+Show it to the user and commit immediately — no confirmation needed.
 
 ```bash
-git commit -m "<message>"
+git commit -m "<type>(<scope>): <description>"
 ```
 
 ### Step 4: Ask about push

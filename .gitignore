@@ -6,6 +6,7 @@ config/tmux/plugins/
 # Claude Code
 .claude/*
 !.claude/CLAUDE.md
+config/claude/skills/*/config.json
 .playwright-mcp/
 .memsearch/
 

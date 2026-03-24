@@ -172,7 +172,6 @@
     "command": "python3 ~/.claude/statusline.py"
   },
   "enabledPlugins": {
-    "slack@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "serena@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
@@ -182,6 +181,8 @@
     "superpowers@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
     "code-review@claude-code-plugins": true,
     "ralph-loop@claude-plugins-official": true,
