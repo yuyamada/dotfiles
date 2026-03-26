@@ -154,7 +154,6 @@
     "slack@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
     "code-review@claude-code-plugins": true,
-    "ralph-loop@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "caffeinate@hiropon-plugins": true
   },
