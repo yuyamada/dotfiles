@@ -103,27 +103,6 @@
     ]
   },
   "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash -c '{ cat; echo; } >> ~/.claude/tool-access.log' 2>/dev/null || true"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-context-monitor.js\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "matcher": "permission_prompt",
@@ -144,27 +123,7 @@
         ]
       }
     ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-check-update.js\""
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/yuyamada/.claude/hooks/gsd-prompt-guard.js\"",
-            "timeout": 5
-          }
-        ]
-      },
       {
         "matcher": "",
         "hooks": [
@@ -232,8 +191,7 @@
         ".git/**",
         "~/.claude/skills/**",
         "~/workspace/dotfiles/.git/config",
-        "~/workspace/dotfiles/.git/**",
-        ".planning/**"
+        "~/workspace/dotfiles/.git/**"
       ]
     }
   },
