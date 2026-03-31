@@ -25,6 +25,8 @@
       "Bash(gh project list *)",
       "Bash(gh pr checks *)",
       "Bash(gh search *)",
+      "Bash(gh api --method GET *)",
+      "Bash(gh api graphql *)",
       "Bash(sed *)",
       "Bash(git log *)",
       "Bash(git branch *)",
