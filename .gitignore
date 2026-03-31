@@ -7,6 +7,8 @@ config/tmux/plugins/
 .claude/*
 !.claude/CLAUDE.md
 config/claude/skills/*/config.json
+config/claude/hooks/approved-patterns.json
+config/claude/hooks/.pending/
 .playwright-mcp/
 .memsearch/
 
