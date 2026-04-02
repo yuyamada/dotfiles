@@ -179,7 +179,8 @@
     "chrome-devtools-mcp@claude-plugins-official": true,
     "code-review@claude-code-plugins": true,
     "gopls-lsp@claude-plugins-official": true,
-    "caffeinate@hiropon-plugins": true
+    "caffeinate@hiropon-plugins": true,
+    "clipboard@yuyamada-plugins": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -192,6 +193,12 @@
       "source": {
         "source": "github",
         "repo": "hiroro-work/claude-plugins"
+      }
+    },
+    "yuyamada-plugins": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:yuyamada/claude-plugins"
       }
     }
   },
