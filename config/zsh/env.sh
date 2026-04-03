@@ -1,4 +1,10 @@
 export LANG=en_US.utf-8
+
+# fzf theme (Iceberg)
+export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#1e2132,bg:#161821,spinner:#89b8c2,hl:#84a0c6 \
+  --color=fg:#c6c8d1,header:#84a0c6,info:#6b7089,pointer:#e27878 \
+  --color=marker:#b4be82,fg+:#c6c8d1,prompt:#84a0c6,hl+:#84a0c6"
 export EDITOR=nvim
 export LESS=FRX
 
