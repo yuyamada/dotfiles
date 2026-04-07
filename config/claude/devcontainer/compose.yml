@@ -1,0 +1,23 @@
+services:
+  claude:
+    build: .
+    volumes:
+      # Claude Code settings (read-only)
+      - ../../settings.json:/home/node/.claude/settings.json:ro
+      - ../../rules:/home/node/.claude/rules:ro
+      - ../../skills:/home/node/.claude/skills:ro
+      - ../../hooks:/home/node/.claude/hooks:ro
+      - ../../CLAUDE.md:/home/node/.claude/CLAUDE.md:ro
+      # workspace
+      - ~/workspace:/workspace
+    working_dir: /workspace
+    user: node
+    environment:
+      - CLAUDE_CODE_OAUTH_TOKEN
+      - GH_TOKEN
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    stdin_open: true
+    tty: true
+    entrypoint: ["/bin/sh", "-c", "sudo /usr/local/bin/init-firewall.sh && exec zsh"]
