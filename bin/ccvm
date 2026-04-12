@@ -47,7 +47,7 @@ resolve_workspace() {
 # Deterministic VM name from workspace path (macOS only: uses md5 -q)
 vm_name_from_path() {
     local hash
-    hash=$(printf '%s' "$1" | md5 -q | cut -c1-8)
+    hash=$(printf '%s' "$1" | md5 -q | cut -c1-4)
     echo "${CCVM_PREFIX}-$(basename "$1")-${hash}"
 }
 
