@@ -20,6 +20,7 @@ def short_path(path):
     return f"{abbr}/{tail}"
 
 dir_name = short_path(current_dir)
+ccvm     = os.environ.get("CCVM", "")
 
 try:
     branch = subprocess.check_output(
@@ -29,8 +30,11 @@ try:
 except Exception:
     branch = ""
 
-# Line 1: directory | branch
-line1 = f"{GRAY}{dir_name}"
+# Line 1: [vm] directory | branch
+line1 = f"{GRAY}"
+if ccvm:
+    line1 += "[vm] "
+line1 += dir_name
 if branch:
     line1 += f" | {branch}"
 line1 += RESET

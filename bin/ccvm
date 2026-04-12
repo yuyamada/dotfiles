@@ -152,7 +152,7 @@ cmd_start() {
     fi
 
     echo "Connecting to $name (workspace: $ws)..."
-    limactl shell --workdir /workspace "$name" claude --dangerously-skip-permissions
+    limactl shell --workdir /workspace "$name" env "CCVM=$name" claude --dangerously-skip-permissions
 }
 
 # --- Main ---
