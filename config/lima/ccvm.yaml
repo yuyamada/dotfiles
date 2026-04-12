@@ -55,6 +55,10 @@ provision:
       ln -sfn /mnt/host-claude-config/hooks "$HOME/.claude/hooks"
       ln -sfn /mnt/host-claude-config/agents "$HOME/.claude/agents"
       ln -sfn /mnt/host-claude-config/CLAUDE.md "$HOME/.claude/CLAUDE.md"
+      ln -sfn /mnt/host-claude-config/statusline.py "$HOME/.claude/statusline.py"
+
+      # Set up Claude memory (RO from host)
+      ln -sfn /mnt/host-claude-projects "$HOME/.claude/projects"
 
       # Set up GitHub CLI auth (only if host mount exists, i.e. --gh was passed)
       if [ -d /mnt/host-gh ]; then

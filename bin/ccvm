@@ -131,9 +131,11 @@ cmd_start() {
     if ! lima_query -e --arg name "$name" 'select(.name == $name)' >/dev/null 2>&1; then
         echo "Creating VM $name..."
         local claude_config="${SCRIPT_DIR}/../config/claude"
+        local claude_projects="${HOME}/.claude/projects"
         local set_args=(
             --set "$(mount_opt "$ws" /workspace true)"
             --set "$(mount_opt "$claude_config" /mnt/host-claude-config)"
+            --set "$(mount_opt "$claude_projects" /mnt/host-claude-projects)"
         )
         if [ "$mount_gh" = true ]; then
             set_args+=(--set "$(mount_opt "${HOME}/.config/gh" /mnt/host-gh)")
