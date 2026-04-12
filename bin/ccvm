@@ -87,16 +87,15 @@ cmd_start() {
     local name
     name="$(vm_name_from_path "$ws")"
 
-    local claude_dir="$HOME/.claude"
-    local gh_dir="$HOME/.config/gh"
-
     if ! vm_exists "$name"; then
         echo "Creating VM $name..."
+        local claude_config="${SCRIPT_DIR}/../config/claude"
         limactl create \
             --name "$name" \
-            --mount "type=reverse-sshfs,location=$ws,mountPoint=/workspace,writable=true" \
-            --mount "type=reverse-sshfs,location=$claude_dir,mountPoint=/home/${USER}.linux/.claude,writable=false" \
-            --mount "type=reverse-sshfs,location=$gh_dir,mountPoint=/home/${USER}.linux/.config/gh,writable=false" \
+            --set ".mounts += [{\"location\": \"${ws}\", \"mountPoint\": \"/workspace\", \"writable\": true}]" \
+            --set ".mounts += [{\"location\": \"${claude_config}\", \"mountPoint\": \"/mnt/host-claude-config\", \"writable\": false}]" \
+            --set ".mounts += [{\"location\": \"${HOME}/.config/gh\", \"mountPoint\": \"/mnt/host-gh\", \"writable\": false}]" \
+            --tty=false \
             "$CCVM_YAML"
         limactl start "$name"
     else
@@ -109,7 +108,7 @@ cmd_start() {
     fi
 
     echo "Connecting to $name (workspace: $ws)..."
-    limactl shell "$name" -- bash -lc "cd /workspace && claude --permission-mode auto"
+    limactl shell --workdir /workspace "$name" claude --permission-mode auto
 }
 
 # Main
