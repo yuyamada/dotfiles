@@ -44,7 +44,7 @@ provision:
 
       # Claude Code
       curl -fsSL https://claude.ai/install.sh -o /tmp/claude-install.sh
-      sh /tmp/claude-install.sh
+      bash /tmp/claude-install.sh
       rm -f /tmp/claude-install.sh
 
       # Set up ~/.claude/ with host config (RO) and writable local state
