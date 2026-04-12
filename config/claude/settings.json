@@ -215,7 +215,7 @@
   },
   "outputStyle": "Explanatory",
   "sandbox": {
-    "enabled": true,
+    "enabled": false,
     "network": {
       "allowedDomains": [
         "github.com",
