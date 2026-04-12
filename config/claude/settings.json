@@ -26,7 +26,6 @@
       "Bash(gh pr checks *)",
       "Bash(gh search *)",
       "Bash(gh api * --method GET *)",
-      "Bash(sed *)",
       "Bash(git log *)",
       "Bash(git branch *)",
       "Bash(jq *)",
@@ -215,7 +214,6 @@
   },
   "outputStyle": "Explanatory",
   "sandbox": {
-    "enabled": false,
     "network": {
       "allowedDomains": [
         "github.com",
