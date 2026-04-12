@@ -121,7 +121,7 @@ cmd_start() {
 case "${1:-}" in
     -h|--help|help) usage ;;
     list)   cmd_list ;;
-    stop)   shift; cmd_stop "${@}" ;;
-    delete) shift; cmd_delete "${@}" ;;
-    *)      cmd_start "${@}" ;;
+    stop)   shift; cmd_stop "${@:+$@}" ;;
+    delete) shift; cmd_delete "${@:+$@}" ;;
+    *)      cmd_start "${@:+$@}" ;;
 esac
