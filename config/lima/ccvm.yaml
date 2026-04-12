@@ -49,13 +49,6 @@ provision:
       apt-get update
       apt-get install -y gh
 
-      # Node.js (LTS via NodeSource)
-      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-      apt-get install -y nodejs
-
-      # Claude Code
-      npm install -g @anthropic-ai/claude-code
-
       # Clean up
       apt-get clean
       rm -rf /var/lib/apt/lists/*
@@ -64,6 +57,9 @@ provision:
     script: |
       #!/bin/bash
       set -eux
+
+      # Claude Code
+      curl -fsSL https://claude.ai/install.sh | sh
 
       # Set up ~/.claude/ with host config (RO) and writable local state
       mkdir -p "$HOME/.claude"
