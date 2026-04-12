@@ -8,10 +8,13 @@ CCVM_PREFIX="ccvm"
 usage() {
     cat <<EOF
 Usage:
-  ccvm [<workspace-path>]    Start Claude Code in a Lima VM
-  ccvm list                  List ccvm VMs
-  ccvm stop <name> [--all]   Stop a ccvm VM (or all with --all)
-  ccvm delete <name> [--all] Delete a ccvm VM (or all with --all)
+  ccvm [--gh] [<workspace-path>]  Start Claude Code in a Lima VM
+  ccvm list                       List ccvm VMs
+  ccvm stop <name> [--all]        Stop a ccvm VM (or all with --all)
+  ccvm delete <name> [--all]      Delete a ccvm VM (or all with --all)
+
+Options:
+  --gh    Mount ~/.config/gh (GitHub CLI auth) into the VM
 EOF
 }
 
@@ -82,6 +85,14 @@ cmd_delete() {
 
 # Start Claude Code in a VM
 cmd_start() {
+    local mount_gh=false
+    while [[ "${1:-}" == --* ]]; do
+        case "$1" in
+            --gh) mount_gh=true; shift ;;
+            *) echo "Unknown option: $1"; usage; exit 1 ;;
+        esac
+    done
+
     local ws
     ws="$(resolve_workspace "${1:-.}")"
     local name
@@ -90,11 +101,16 @@ cmd_start() {
     if ! vm_exists "$name"; then
         echo "Creating VM $name..."
         local claude_config="${SCRIPT_DIR}/../config/claude"
+        local set_args=(
+            --set ".mounts += [{\"location\": \"${ws}\", \"mountPoint\": \"/workspace\", \"writable\": true}]"
+            --set ".mounts += [{\"location\": \"${claude_config}\", \"mountPoint\": \"/mnt/host-claude-config\", \"writable\": false}]"
+        )
+        if [ "$mount_gh" = true ]; then
+            set_args+=(--set ".mounts += [{\"location\": \"${HOME}/.config/gh\", \"mountPoint\": \"/mnt/host-gh\", \"writable\": false}]")
+        fi
         limactl create \
             --name "$name" \
-            --set ".mounts += [{\"location\": \"${ws}\", \"mountPoint\": \"/workspace\", \"writable\": true}]" \
-            --set ".mounts += [{\"location\": \"${claude_config}\", \"mountPoint\": \"/mnt/host-claude-config\", \"writable\": false}]" \
-            --set ".mounts += [{\"location\": \"${HOME}/.config/gh\", \"mountPoint\": \"/mnt/host-gh\", \"writable\": false}]" \
+            "${set_args[@]}" \
             --tty=false \
             "$CCVM_YAML"
         limactl start "$name"
@@ -128,6 +144,6 @@ case "${1:-}" in
         cmd_delete "${@}"
         ;;
     *)
-        cmd_start "${1:-}"
+        cmd_start "${@}"
         ;;
 esac
