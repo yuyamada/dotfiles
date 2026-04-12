@@ -1,9 +1,24 @@
 #!/bin/bash
+# ccvm - Launch Claude Code in a Lima VM with Docker support.
+# Auto permission mode is safe here because the VM provides host isolation.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 CCVM_YAML="${SCRIPT_DIR}/../config/lima/ccvm.yaml"
 CCVM_PREFIX="ccvm"
+
+# Dependency check
+for cmd in limactl jq; do
+    if ! command -v "$cmd" &>/dev/null; then
+        echo "Error: '$cmd' is not installed. Run: brew install ${cmd/limactl/lima}" >&2
+        exit 1
+    fi
+done
+
+if [ ! -f "$CCVM_YAML" ]; then
+    echo "Error: ccvm.yaml not found at $CCVM_YAML" >&2
+    exit 1
+fi
 
 usage() {
     cat <<EOF
@@ -21,9 +36,15 @@ EOF
 # --- Helpers ---
 
 resolve_workspace() {
-    (cd "${1:-.}" && pwd)
+    local target="${1:-.}"
+    if [ ! -d "$target" ]; then
+        echo "Error: workspace path does not exist or is not a directory: $target" >&2
+        exit 1
+    fi
+    (cd "$target" && pwd)
 }
 
+# Deterministic VM name from workspace path (macOS only: uses md5 -q)
 vm_name_from_path() {
     local hash
     hash=$(printf '%s' "$1" | md5 -q | cut -c1-8)
@@ -38,21 +59,30 @@ mount_opt() {
     echo ".mounts += [{\"location\": \"${1}\", \"mountPoint\": \"${2}\", \"writable\": ${3:-false}}]"
 }
 
-# Iterate over ccvm VMs matching a jq filter, executing a callback for each
 for_each_vm() {
-    local filter="$1"
+    local filter="$1" count=0
     shift
     while IFS= read -r vm; do
         [ -n "$vm" ] || continue
         "$@" "$vm"
+        ((count++))
     done < <(lima_query --arg prefix "${CCVM_PREFIX}-" "select(.name | startswith(\$prefix)) | ${filter}")
+    if [ "$count" -eq 0 ]; then
+        echo "No matching ccvm VMs found."
+    fi
 }
 
 # --- Commands ---
 
 cmd_list() {
-    lima_query --arg prefix "${CCVM_PREFIX}-" \
-        'select(.name | startswith($prefix)) | "\(.name)\t\(.status)\t\(.cpus)cpu\t\(.memory)"'
+    local output
+    output="$(lima_query --arg prefix "${CCVM_PREFIX}-" \
+        'select(.name | startswith($prefix)) | "\(.name)\t\(.status)\t\(.cpus)cpu\t\(.memory)"')"
+    if [ -z "$output" ]; then
+        echo "No ccvm VMs found. Create one with: ccvm <workspace-path>"
+        return
+    fi
+    echo "$output"
 }
 
 cmd_stop() {
@@ -74,7 +104,7 @@ cmd_delete() {
 }
 
 _delete_vm() {
-    limactl stop "$1" 2>/dev/null || true
+    limactl stop "$1" 2>&1 || true
     limactl delete "$1" --force
 }
 

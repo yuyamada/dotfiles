@@ -12,14 +12,15 @@ cpus: 1
 memory: "2GiB"
 
 # All mounts are configured dynamically by the ccvm script via --set.
-# Workspace is mounted RW at /workspace, Claude settings and gh auth are mounted RO.
+# Workspace is mounted RW at /workspace, Claude settings are mounted RO.
+# GitHub CLI auth (~/.config/gh) is optionally mounted RO when --gh is passed.
 mounts: []
 
 provision:
   - mode: system
     script: |
       #!/bin/bash
-      set -eux
+      set -euxo pipefail
 
       # Docker Engine (official repository)
       apt-get update
@@ -32,9 +33,13 @@ provision:
       apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       # Add the Lima user to docker group
-      # Home dir is <user>.guest but username doesn't include the suffix
+      # Lima user has same name as host user but home dir suffix varies by version
       LIMA_USER="$(getent passwd | awk -F: '/\/home\// && $3 >= 500 {print $1; exit}')"
-      [ -n "$LIMA_USER" ] && usermod -aG docker "$LIMA_USER"
+      if [ -z "$LIMA_USER" ]; then
+          echo "Error: could not detect Lima user account" >&2
+          exit 1
+      fi
+      usermod -aG docker "$LIMA_USER"
 
       # Basic tools
       apt-get install -y git ripgrep fd-find jq fzf
@@ -53,10 +58,12 @@ provision:
   - mode: user
     script: |
       #!/bin/bash
-      set -eux
+      set -euxo pipefail
 
       # Claude Code
-      curl -fsSL https://claude.ai/install.sh | sh
+      curl -fsSL https://claude.ai/install.sh -o /tmp/claude-install.sh
+      sh /tmp/claude-install.sh
+      rm -f /tmp/claude-install.sh
 
       # Set up ~/.claude/ with host config (RO) and writable local state
       mkdir -p "$HOME/.claude"
@@ -67,6 +74,8 @@ provision:
       ln -sfn /mnt/host-claude-config/agents "$HOME/.claude/agents"
       ln -sfn /mnt/host-claude-config/CLAUDE.md "$HOME/.claude/CLAUDE.md"
 
-      # Set up GitHub CLI auth
-      mkdir -p "$HOME/.config"
-      ln -sfn /mnt/host-gh "$HOME/.config/gh"
+      # Set up GitHub CLI auth (only if host mount exists, i.e. --gh was passed)
+      if [ -d /mnt/host-gh ]; then
+          mkdir -p "$HOME/.config"
+          ln -sfn /mnt/host-gh "$HOME/.config/gh"
+      fi
