@@ -10,7 +10,6 @@ images:
 
 cpus: 1
 memory: "2GiB"
-disk: "10GiB"
 
 # All mounts are configured dynamically by the ccvm script via --set.
 # Workspace is mounted RW at /workspace, Claude settings and gh auth are mounted RO.
