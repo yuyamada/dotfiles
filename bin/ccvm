@@ -31,17 +31,17 @@ vm_name_from_path() {
 
 # Check if a VM exists
 vm_exists() {
-    limactl list --json 2>/dev/null | jq -se --arg name "$1" '.[] | select(.Name == $name)' >/dev/null 2>&1
+    limactl list --json 2>/dev/null | jq -e --arg name "$1" 'select(.name == $name)' >/dev/null 2>&1
 }
 
 # Get VM status (Running, Stopped, etc.)
 vm_status() {
-    limactl list --json 2>/dev/null | jq -rs --arg name "$1" '.[] | select(.Name == $name) | .Status'
+    limactl list --json 2>/dev/null | jq -r --arg name "$1" 'select(.name == $name) | .status'
 }
 
 # List all ccvm VMs
 cmd_list() {
-    limactl list --json 2>/dev/null | jq -rs --arg prefix "${CCVM_PREFIX}-" '.[] | select(.Name | startswith($prefix)) | "\(.Name)\t\(.Status)\t\(.CPUs)cpu\t\(.Memory)"'
+    limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | "\(.name)\t\(.status)\t\(.cpus)cpu\t\(.memory)"'
 }
 
 # Stop VM(s)
@@ -52,7 +52,7 @@ cmd_stop() {
             [ -n "$vm" ] || continue
             echo "Stopping $vm..."
             limactl stop "$vm"
-        done < <(limactl list --json 2>/dev/null | jq -rs --arg prefix "${CCVM_PREFIX}-" '.[] | select(.Name | startswith($prefix)) | select(.Status == "Running") | .Name')
+        done < <(limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | select(.status == "Running") | .name')
         return
     fi
 
@@ -70,7 +70,7 @@ cmd_delete() {
             echo "Deleting $vm..."
             limactl stop "$vm" 2>/dev/null || true
             limactl delete "$vm" --force
-        done < <(limactl list --json 2>/dev/null | jq -rs --arg prefix "${CCVM_PREFIX}-" '.[] | select(.Name | startswith($prefix)) | .Name')
+        done < <(limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | .name')
         return
     fi
 
