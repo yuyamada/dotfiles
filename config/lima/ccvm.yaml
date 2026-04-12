@@ -1,0 +1,81 @@
+# ccvm - Claude Code VM
+# Lima VM definition for running Claude Code in auto mode with Docker support.
+#
+# Usage: This file is referenced by the ccvm script.
+# Do not start directly with limactl — use `ccvm` instead.
+
+images:
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+    arch: "aarch64"
+
+cpus: 1
+memory: "2GiB"
+
+# All mounts are configured dynamically by the ccvm script via --set.
+# Workspace is mounted RW at /workspace, Claude settings are mounted RO.
+# GitHub CLI auth (~/.config/gh) is optionally mounted RO when --gh is passed.
+mounts: []
+
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -euxo pipefail
+
+      # Docker Engine (official repository)
+      apt-get update
+      apt-get install -y ca-certificates curl
+      install -m 0755 -d /etc/apt/keyrings
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      chmod a+r /etc/apt/keyrings/docker.asc
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list
+      apt-get update
+      apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+      # Add the Lima user to docker group
+      # Lima user has same name as host user but home dir suffix varies by version
+      LIMA_USER="$(getent passwd | awk -F: '/\/home\// && $3 >= 500 {print $1; exit}')"
+      if [ -z "$LIMA_USER" ]; then
+          echo "Error: could not detect Lima user account" >&2
+          exit 1
+      fi
+      usermod -aG docker "$LIMA_USER"
+
+      # Basic tools
+      apt-get install -y git ripgrep fd-find jq fzf
+
+      # GitHub CLI
+      curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+      chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list
+      apt-get update
+      apt-get install -y gh
+
+      # Clean up
+      apt-get clean
+      rm -rf /var/lib/apt/lists/*
+
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -euxo pipefail
+
+      # Claude Code
+      curl -fsSL https://claude.ai/install.sh -o /tmp/claude-install.sh
+      sh /tmp/claude-install.sh
+      rm -f /tmp/claude-install.sh
+
+      # Set up ~/.claude/ with host config (RO) and writable local state
+      mkdir -p "$HOME/.claude"
+      ln -sfn /mnt/host-claude-config/settings.json "$HOME/.claude/settings.json"
+      ln -sfn /mnt/host-claude-config/rules "$HOME/.claude/rules"
+      ln -sfn /mnt/host-claude-config/skills "$HOME/.claude/skills"
+      ln -sfn /mnt/host-claude-config/hooks "$HOME/.claude/hooks"
+      ln -sfn /mnt/host-claude-config/agents "$HOME/.claude/agents"
+      ln -sfn /mnt/host-claude-config/CLAUDE.md "$HOME/.claude/CLAUDE.md"
+
+      # Set up GitHub CLI auth (only if host mount exists, i.e. --gh was passed)
+      if [ -d /mnt/host-gh ]; then
+          mkdir -p "$HOME/.config"
+          ln -sfn /mnt/host-gh "$HOME/.config/gh"
+      fi

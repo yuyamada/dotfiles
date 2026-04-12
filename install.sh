@@ -37,7 +37,7 @@ if [ -d "$DOTFILES_DIR/config" ]; then
     for dir in "$DOTFILES_DIR/config"/*; do
         if [ -d "$dir" ]; then
             dirname=$(basename "$dir")
-            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ] || [ "$dirname" = "git" ]; then
+            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ] || [ "$dirname" = "git" ] || [ "$dirname" = "lima" ]; then
                 continue
             fi
             link_file "$dir" "$HOME/.config/$dirname"
@@ -104,6 +104,10 @@ if [ -f "$DOTFILES_DIR/config/cursor/permissions.json" ]; then
         echo "✅ Cursor CLI の設定を新規作成しました"
     fi
 fi
+
+# ccvm (Lima VM launcher)
+mkdir -p "$HOME/.local/bin"
+link_file "$DOTFILES_DIR/bin/ccvm" "$HOME/.local/bin/ccvm"
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
