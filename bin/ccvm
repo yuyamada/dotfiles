@@ -3,7 +3,14 @@
 # Auto permission mode is safe here because the VM provides host isolation.
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+_SOURCE="$0"
+while [ -L "$_SOURCE" ]; do
+    _DIR="$(cd -P "$(dirname "$_SOURCE")" && pwd)"
+    _SOURCE="$(readlink "$_SOURCE")"
+    [[ "$_SOURCE" != /* ]] && _SOURCE="$_DIR/$_SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$_SOURCE")" && pwd)"
+unset _SOURCE _DIR
 CCVM_YAML="${SCRIPT_DIR}/../config/lima/ccvm.yaml"
 CCVM_PREFIX="ccvm"
 
