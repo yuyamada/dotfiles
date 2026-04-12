@@ -8,8 +8,8 @@
 base:
   - template:docker
 
-cpus: 1
-memory: "2GiB"
+cpus: 2
+memory: "4GiB"
 
 # All mounts are configured dynamically by the ccvm script via --set.
 # Workspace is mounted RW at /workspace, Claude settings are mounted RO.
