@@ -18,72 +18,66 @@ Options:
 EOF
 }
 
-# Resolve workspace path and derive VM name
+# --- Helpers ---
+
 resolve_workspace() {
-    local ws="${1:-.}"
-    ws="$(cd "$ws" && pwd)"
-    echo "$ws"
+    (cd "${1:-.}" && pwd)
 }
 
 vm_name_from_path() {
-    local ws="$1"
     local hash
-    hash=$(printf '%s' "$ws" | md5 -q | cut -c1-8)
-    echo "${CCVM_PREFIX}-$(basename "$ws")-${hash}"
+    hash=$(printf '%s' "$1" | md5 -q | cut -c1-8)
+    echo "${CCVM_PREFIX}-$(basename "$1")-${hash}"
 }
 
-# Check if a VM exists
-vm_exists() {
-    limactl list --json 2>/dev/null | jq -e --arg name "$1" 'select(.name == $name)' >/dev/null 2>&1
+lima_query() {
+    limactl list --json 2>/dev/null | jq -r "$@"
 }
 
-# Get VM status (Running, Stopped, etc.)
-vm_status() {
-    limactl list --json 2>/dev/null | jq -r --arg name "$1" 'select(.name == $name) | .status'
+mount_opt() {
+    echo ".mounts += [{\"location\": \"${1}\", \"mountPoint\": \"${2}\", \"writable\": ${3:-false}}]"
 }
 
-# List all ccvm VMs
+# Iterate over ccvm VMs matching a jq filter, executing a callback for each
+for_each_vm() {
+    local filter="$1"
+    shift
+    while IFS= read -r vm; do
+        [ -n "$vm" ] || continue
+        "$@" "$vm"
+    done < <(lima_query --arg prefix "${CCVM_PREFIX}-" "select(.name | startswith(\$prefix)) | ${filter}")
+}
+
+# --- Commands ---
+
 cmd_list() {
-    limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | "\(.name)\t\(.status)\t\(.cpus)cpu\t\(.memory)"'
+    lima_query --arg prefix "${CCVM_PREFIX}-" \
+        'select(.name | startswith($prefix)) | "\(.name)\t\(.status)\t\(.cpus)cpu\t\(.memory)"'
 }
 
-# Stop VM(s)
 cmd_stop() {
     if [ "${1:-}" = "--all" ]; then
-        local vms
-        while IFS= read -r vm; do
-            [ -n "$vm" ] || continue
-            echo "Stopping $vm..."
-            limactl stop "$vm"
-        done < <(limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | select(.status == "Running") | .name')
+        for_each_vm 'select(.status == "Running") | .name' limactl stop
         return
     fi
-
     local name="${1:?VM name required. Usage: ccvm stop <name>}"
-    local full_name="${CCVM_PREFIX}-${name}"
-    limactl stop "$full_name"
+    limactl stop "${CCVM_PREFIX}-${name}"
 }
 
-# Delete VM(s)
 cmd_delete() {
     if [ "${1:-}" = "--all" ]; then
-        local vms
-        while IFS= read -r vm; do
-            [ -n "$vm" ] || continue
-            echo "Deleting $vm..."
-            limactl stop "$vm" 2>/dev/null || true
-            limactl delete "$vm" --force
-        done < <(limactl list --json 2>/dev/null | jq -r --arg prefix "${CCVM_PREFIX}-" 'select(.name | startswith($prefix)) | .name')
+        for_each_vm '.name' _delete_vm
         return
     fi
-
     local name="${1:?VM name required. Usage: ccvm delete <name>}"
-    local full_name="${CCVM_PREFIX}-${name}"
-    limactl stop "$full_name" 2>/dev/null || true
-    limactl delete "$full_name" --force
+    _delete_vm "${CCVM_PREFIX}-${name}"
 }
 
-# Start Claude Code in a VM
+_delete_vm() {
+    limactl stop "$1" 2>/dev/null || true
+    limactl delete "$1" --force
+}
+
 cmd_start() {
     local mount_gh=false
     while [[ "${1:-}" == --* ]]; do
@@ -93,31 +87,26 @@ cmd_start() {
         esac
     done
 
-    local ws
+    local ws name
     ws="$(resolve_workspace "${1:-.}")"
-    local name
     name="$(vm_name_from_path "$ws")"
 
-    if ! vm_exists "$name"; then
+    if ! lima_query -e --arg name "$name" 'select(.name == $name)' >/dev/null 2>&1; then
         echo "Creating VM $name..."
         local claude_config="${SCRIPT_DIR}/../config/claude"
         local set_args=(
-            --set ".mounts += [{\"location\": \"${ws}\", \"mountPoint\": \"/workspace\", \"writable\": true}]"
-            --set ".mounts += [{\"location\": \"${claude_config}\", \"mountPoint\": \"/mnt/host-claude-config\", \"writable\": false}]"
+            --set "$(mount_opt "$ws" /workspace true)"
+            --set "$(mount_opt "$claude_config" /mnt/host-claude-config)"
         )
         if [ "$mount_gh" = true ]; then
-            set_args+=(--set ".mounts += [{\"location\": \"${HOME}/.config/gh\", \"mountPoint\": \"/mnt/host-gh\", \"writable\": false}]")
+            set_args+=(--set "$(mount_opt "${HOME}/.config/gh" /mnt/host-gh)")
         fi
-        limactl create \
-            --name "$name" \
-            "${set_args[@]}" \
-            --tty=false \
-            "$CCVM_YAML"
+        limactl create --name "$name" "${set_args[@]}" --tty=false "$CCVM_YAML"
         limactl start "$name"
     else
         local status
-        status="$(vm_status "$name")"
-        if [ "$status" != "Running" ] && [ "$status" != "running" ]; then
+        status="$(lima_query --arg name "$name" 'select(.name == $name) | .status')"
+        if [ "$status" != "Running" ]; then
             echo "Starting VM $name..."
             limactl start "$name"
         fi
@@ -127,23 +116,12 @@ cmd_start() {
     limactl shell --workdir /workspace "$name" claude --permission-mode auto
 }
 
-# Main
+# --- Main ---
+
 case "${1:-}" in
-    -h|--help|help)
-        usage
-        ;;
-    list)
-        cmd_list
-        ;;
-    stop)
-        shift
-        cmd_stop "${@}"
-        ;;
-    delete)
-        shift
-        cmd_delete "${@}"
-        ;;
-    *)
-        cmd_start "${@}"
-        ;;
+    -h|--help|help) usage ;;
+    list)   cmd_list ;;
+    stop)   shift; cmd_stop "${@}" ;;
+    delete) shift; cmd_delete "${@}" ;;
+    *)      cmd_start "${@}" ;;
 esac
