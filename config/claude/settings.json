@@ -25,7 +25,7 @@
       "Bash(gh project list *)",
       "Bash(gh pr checks *)",
       "Bash(gh search *)",
-      "Bash(gh api --method GET *)",
+      "Bash(gh api * --method GET *)",
       "Bash(gh api graphql *)",
       "Bash(sed *)",
       "Bash(git log *)",
@@ -97,6 +97,12 @@
       "mcp__plugin_serena_serena__search_for_pattern",
       "mcp__plugin_serena_serena__switch_modes",
       "mcp__plugin_serena_serena__write_memory"
+    ],
+    "ask": [
+      "Bash(gh api * --method POST *)",
+      "Bash(gh api * --method PUT *)",
+      "Bash(gh api * --method PATCH *)",
+      "Bash(gh api * --method DELETE *)"
     ],
     "deny": [
       "Bash(git push --force *)",
