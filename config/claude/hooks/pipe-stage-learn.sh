@@ -15,8 +15,9 @@
 set -eo pipefail
 
 HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
-APPROVED_FILE="$HOOK_DIR/approved-patterns.json"
-PENDING_DIR="$HOOK_DIR/.pending"
+DATA_DIR="${CLAUDE_HOOKS_DATA_DIR:-$HOME/.claude/hooks}"
+APPROVED_FILE="$DATA_DIR/approved-patterns.json"
+PENDING_DIR="$DATA_DIR/.pending"
 
 INPUT=$(cat)
 TOOL_USE_ID=$(echo "$INPUT" | jq -r '.tool_use_id // empty')

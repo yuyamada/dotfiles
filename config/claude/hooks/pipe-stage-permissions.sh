@@ -19,7 +19,8 @@
 set -eo pipefail
 
 HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
-APPROVED_FILE="$HOOK_DIR/approved-patterns.json"
+DATA_DIR="${CLAUDE_HOOKS_DATA_DIR:-$HOME/.claude/hooks}"
+APPROVED_FILE="$DATA_DIR/approved-patterns.json"
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
@@ -297,7 +298,7 @@ if [ "$all_match" = true ]; then
 fi
 
 # Write pending approval info for the PostToolUse hook to pick up
-PENDING_DIR="$HOOK_DIR/.pending"
+PENDING_DIR="$DATA_DIR/.pending"
 mkdir -p "$PENDING_DIR"
 TOOL_USE_ID=$(echo "$INPUT" | jq -r '.tool_use_id // empty')
 if [ -n "$TOOL_USE_ID" ] && [ -n "$unmatched_stage" ]; then
