@@ -1,6 +1,6 @@
 #!/bin/bash
 # ccvm - Launch Claude Code in a Lima VM with Docker support.
-# Auto permission mode is safe here because the VM provides host isolation.
+# bypassPermissions is safe here because the VM provides host isolation.
 set -euo pipefail
 
 _SOURCE="$0"
@@ -150,7 +150,7 @@ cmd_start() {
     fi
 
     echo "Connecting to $name (workspace: $ws)..."
-    limactl shell --workdir /workspace "$name" claude --permission-mode auto
+    limactl shell --workdir /workspace "$name" claude --dangerously-skip-permissions
 }
 
 # --- Main ---
