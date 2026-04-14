@@ -25,7 +25,9 @@
       "Bash(gh project list *)",
       "Bash(gh pr checks *)",
       "Bash(gh search *)",
-      "Bash(gh api * --method GET *)",
+      "Bash(gh api --method GET *)",
+      "Bash(gh api graphql *)",
+      "Bash(sed *)",
       "Bash(git log *)",
       "Bash(git branch *)",
       "Bash(jq *)",
@@ -91,25 +93,12 @@
       "mcp__plugin_serena_serena__replace_symbol_body",
       "mcp__plugin_serena_serena__search_for_pattern",
       "mcp__plugin_serena_serena__switch_modes",
-      "mcp__plugin_serena_serena__write_memory",
-      "mcp__plugin_serena_serena__safe_delete_symbol"
+      "mcp__plugin_serena_serena__write_memory"
     ],
     "deny": [
-      "Bash(git push * --force *)",
-      "Bash(git push * -f *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
       "Bash(sudo *)"
-    ],
-    "ask": [
-      "Bash(gh api * --method POST *)",
-      "Bash(gh api * --method PUT *)",
-      "Bash(gh api * --method PATCH *)",
-      "Bash(gh api * --method DELETE *)",
-      "Bash(gh api graphql *)",
-      "Bash(npm publish *)",
-      "Bash(yarn publish *)",
-      "Bash(pnpm publish *)",
-      "Bash(sed -i *)",
-      "Bash(sed * -i *)"
     ]
   },
   "hooks": {
@@ -140,28 +129,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/stash_command.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/pipe-stage-permissions.sh",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/pipe-stage-learn.sh",
             "timeout": 5
           }
         ]
@@ -200,16 +167,11 @@
         "source": "github",
         "repo": "hiroro-work/claude-plugins"
       }
-    },
-    "yuyamada-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "yuyamada/claude-plugins"
-      }
     }
   },
   "outputStyle": "Explanatory",
   "sandbox": {
+    "enabled": false,
     "network": {
       "allowedDomains": [
         "github.com",
@@ -247,6 +209,5 @@
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
     }
-  },
-  "model": "sonnet"
+  }
 }
