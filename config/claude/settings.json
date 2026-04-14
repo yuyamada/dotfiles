@@ -33,6 +33,7 @@
       "Bash(jq *)",
       "Bash(wc *)",
       "Bash(tail *)",
+      "Bash(gcloud logging read *)",
       "Bash(git status *)",
       "Bash(git diff *)",
       "Bash(git fetch *)",
