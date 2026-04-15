@@ -14,7 +14,12 @@ LANGFUSE_DIR="${LANGFUSE_DIR:-$HOME/.local/share/langfuse}"
 LANGFUSE_REPO="${LANGFUSE_REPO:-https://github.com/langfuse/langfuse.git}"
 LANGFUSE_VENV="${LANGFUSE_VENV:-$HOME/.claude/langfuse-venv}"
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# シンボリックリンク経由で呼ばれた場合に実体のパスを解決する
+_script="${BASH_SOURCE[0]}"
+while [ -L "$_script" ]; do
+    _script="$(readlink "$_script")"
+done
+DOTFILES_DIR="$(cd "$(dirname "$_script")/.." && pwd)"
 ENV_TEMPLATE="$DOTFILES_DIR/config/langfuse/env.template"
 ENV_FILE="$HOME/.claude/langfuse.env"
 
