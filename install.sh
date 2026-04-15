@@ -37,7 +37,7 @@ if [ -d "$DOTFILES_DIR/config" ]; then
     for dir in "$DOTFILES_DIR/config"/*; do
         if [ -d "$dir" ]; then
             dirname=$(basename "$dir")
-            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ] || [ "$dirname" = "git" ] || [ "$dirname" = "lima" ]; then
+            if [ "$dirname" = "claude" ] || [ "$dirname" = "agents" ] || [ "$dirname" = "cursor" ] || [ "$dirname" = "git" ] || [ "$dirname" = "lima" ] || [ "$dirname" = "langfuse" ]; then
                 continue
             fi
             link_file "$dir" "$HOME/.config/$dirname"
@@ -108,6 +108,9 @@ fi
 # ccvm (Lima VM launcher)
 mkdir -p "$HOME/.local/bin"
 link_file "$DOTFILES_DIR/bin/ccvm" "$HOME/.local/bin/ccvm"
+
+# langfuse-setup (Claude Code のローカル観測基盤セットアップ)
+link_file "$DOTFILES_DIR/bin/langfuse-setup" "$HOME/.local/bin/langfuse-setup"
 
 # Anthropic API キーの設定
 read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r

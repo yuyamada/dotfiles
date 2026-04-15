@@ -181,6 +181,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/langfuse-trace.py",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "statusLine": {

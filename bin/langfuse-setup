@@ -1,0 +1,75 @@
+#!/bin/bash
+# langfuse-setup - Claude Code のローカル可観測性セットアップ
+#
+# Langfuse 公式リポジトリを ~/.local/share/langfuse にクローンし
+# docker compose で起動する。restart: always なので Rancher Desktop
+# (dockerd) が起動していれば自動で復帰する。
+#
+# 参考: https://langfuse.com/self-hosting/docker-compose
+#       https://langfuse.com/integrations/other/claude-code
+
+set -euo pipefail
+
+LANGFUSE_DIR="${LANGFUSE_DIR:-$HOME/.local/share/langfuse}"
+LANGFUSE_REPO="${LANGFUSE_REPO:-https://github.com/langfuse/langfuse.git}"
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ENV_TEMPLATE="$DOTFILES_DIR/config/langfuse/env.template"
+ENV_FILE="$HOME/.claude/langfuse.env"
+
+log() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[1;33m[warn]\033[0m %s\n' "$*" >&2; }
+die() { printf '\033[1;31m[error]\033[0m %s\n' "$*" >&2; exit 1; }
+
+# Dependency check
+for cmd in git docker; do
+    command -v "$cmd" >/dev/null 2>&1 || die "'$cmd' が見つかりません"
+done
+if ! docker compose version >/dev/null 2>&1; then
+    die "'docker compose' が利用できません (Rancher Desktop が起動しているか確認)"
+fi
+
+# 1. clone / update langfuse repo
+if [ -d "$LANGFUSE_DIR/.git" ]; then
+    log "Langfuse リポジトリを更新: $LANGFUSE_DIR"
+    git -C "$LANGFUSE_DIR" pull --ff-only
+else
+    log "Langfuse をクローン: $LANGFUSE_DIR"
+    mkdir -p "$(dirname "$LANGFUSE_DIR")"
+    git clone --depth 1 "$LANGFUSE_REPO" "$LANGFUSE_DIR"
+fi
+
+# 2. env ファイルの用意 (dotfiles のテンプレートから ~/.claude/langfuse.env を生成)
+if [ ! -f "$ENV_FILE" ]; then
+    if [ ! -f "$ENV_TEMPLATE" ]; then
+        die "テンプレートが見つかりません: $ENV_TEMPLATE"
+    fi
+    mkdir -p "$(dirname "$ENV_FILE")"
+    cp "$ENV_TEMPLATE" "$ENV_FILE"
+    chmod 600 "$ENV_FILE"
+    warn "作成: $ENV_FILE"
+    warn "Langfuse UI (http://localhost:3000) で組織/プロジェクト/API キーを作成し、"
+    warn "$ENV_FILE の LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY を編集してください"
+fi
+
+# 3. docker compose up -d (restart: always により再起動後も自動復帰)
+log "docker compose up -d ($LANGFUSE_DIR)"
+(cd "$LANGFUSE_DIR" && docker compose up -d)
+
+cat <<EOF
+
+✅ Langfuse 起動完了
+
+- UI:          http://localhost:3000
+- env ファイル: $ENV_FILE
+- リポジトリ:  $LANGFUSE_DIR
+
+初回セットアップ:
+  1. http://localhost:3000 にアクセスしてアカウント作成
+  2. 組織 → プロジェクト → API Keys から public/secret key を発行
+  3. $ENV_FILE を編集し TRACE_TO_LANGFUSE=true に切替
+  4. 新しい Claude Code セッションを起動 (zsh が env を読み込む)
+
+停止:   cd $LANGFUSE_DIR && docker compose down
+更新:   $(basename "$0") (再実行で git pull + compose up)
+EOF
