@@ -188,8 +188,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/langfuse-trace.py",
-            "timeout": 10
+            "command": "~/.claude/langfuse-venv/bin/python ~/.claude/hooks/langfuse_hook.py",
+            "timeout": 15
           }
         ]
       }
