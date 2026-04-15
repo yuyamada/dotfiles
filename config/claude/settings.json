@@ -109,7 +109,17 @@
     "deny": [
       "Bash(git push --force *)",
       "Bash(git push -f *)",
-      "Bash(sudo *)"
+      "Bash(sudo *)",
+      "Bash(python -c *)",
+      "Bash(python3 -c *)",
+      "Bash(python2 -c *)",
+      "Bash(uv run python -c *)",
+      "Bash(uvx python -c *)",
+      "Bash(python * -c *)",
+      "Bash(python3 * -c *)",
+      "Bash(python2 * -c *)",
+      "Bash(uv run python * -c *)",
+      "Bash(uvx python * -c *)"
     ]
   },
   "hooks": {
