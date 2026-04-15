@@ -306,6 +306,7 @@ class Turn:
     user_msg: Dict[str, Any]
     assistant_msgs: List[Dict[str, Any]]
     tool_results_by_id: Dict[str, Any]
+    tool_is_error_by_id: Dict[str, bool]
 
 def build_turns(messages: List[Dict[str, Any]]) -> List[Turn]:
     """
@@ -323,15 +324,21 @@ def build_turns(messages: List[Dict[str, Any]]) -> List[Turn]:
     assistant_latest: Dict[str, Dict[str, Any]] = {}  # id -> latest msg
 
     tool_results_by_id: Dict[str, Any] = {}     # tool_use_id -> content
+    tool_is_error_by_id: Dict[str, bool] = {}   # tool_use_id -> is_error
 
     def flush_turn():
-        nonlocal current_user, assistant_order, assistant_latest, tool_results_by_id, turns
+        nonlocal current_user, assistant_order, assistant_latest, tool_results_by_id, tool_is_error_by_id, turns
         if current_user is None:
             return
         if not assistant_latest:
             return
         assistants = [assistant_latest[mid] for mid in assistant_order if mid in assistant_latest]
-        turns.append(Turn(user_msg=current_user, assistant_msgs=assistants, tool_results_by_id=dict(tool_results_by_id)))
+        turns.append(Turn(
+            user_msg=current_user,
+            assistant_msgs=assistants,
+            tool_results_by_id=dict(tool_results_by_id),
+            tool_is_error_by_id=dict(tool_is_error_by_id),
+        ))
 
     for msg in messages:
         role = get_role(msg)
@@ -342,6 +349,7 @@ def build_turns(messages: List[Dict[str, Any]]) -> List[Turn]:
                 tid = tr.get("tool_use_id")
                 if tid:
                     tool_results_by_id[str(tid)] = tr.get("content")
+                    tool_is_error_by_id[str(tid)] = bool(tr.get("is_error", False))
             continue
 
         if role == "user":
@@ -353,6 +361,7 @@ def build_turns(messages: List[Dict[str, Any]]) -> List[Turn]:
             assistant_order = []
             assistant_latest = {}
             tool_results_by_id = {}
+            tool_is_error_by_id = {}
             continue
 
         if role == "assistant":
@@ -385,7 +394,7 @@ def _tool_calls_from_assistants(assistant_msgs: List[Dict[str, Any]]) -> List[Di
             })
     return calls
 
-def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, transcript_path: Path) -> None:
+def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, transcript_path: Path, *, public_key: str = "", secret_key: str = "", host: str = "") -> None:
     user_text_raw = extract_text(get_content(turn.user_msg))
     user_text, user_text_meta = truncate_text(user_text_raw)
 
@@ -397,7 +406,7 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
 
     tool_calls = _tool_calls_from_assistants(turn.assistant_msgs)
 
-    # attach tool outputs
+    # attach tool outputs and error flags
     for c in tool_calls:
         if c["id"] and c["id"] in turn.tool_results_by_id:
             out_raw = turn.tool_results_by_id[c["id"]]
@@ -405,8 +414,15 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
             out_trunc, out_meta = truncate_text(out_str)
             c["output"] = out_trunc
             c["output_meta"] = out_meta
+            c["is_error"] = turn.tool_is_error_by_id.get(c["id"], False)
         else:
             c["output"] = None
+            c["is_error"] = False
+
+    # tool error rate for this turn
+    total_tools = len(tool_calls)
+    error_count = sum(1 for tc in tool_calls if tc.get("is_error", False))
+    tool_error_rate = error_count / total_tools if total_tools > 0 else None
 
     with propagate_attributes(
         session_id=session_id,
@@ -422,6 +438,9 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
                 "turn_number": turn_num,
                 "transcript_path": str(transcript_path),
                 "user_text": user_text_meta,
+                "tool_error_rate": tool_error_rate,
+                "tool_error_count": error_count,
+                "total_tools": total_tools,
             },
         ) as trace_span:
             # LLM generation
@@ -454,6 +473,7 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
                     metadata={
                         "tool_name": tc["name"],
                         "tool_id": tc["id"],
+                        "is_error": tc.get("is_error", False),
                         "input_meta": in_meta,
                         "output_meta": tc.get("output_meta"),
                     },
@@ -461,6 +481,19 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
                     tool_obs.update(output=tc.get("output"))
 
             trace_span.update(output={"role": "assistant", "content": assistant_text})
+
+            # Langfuse score: tool error rate (only when tools were used)
+            if tool_error_rate is not None:
+                try:
+                    langfuse.score_current_trace(
+                        name="tool_error_rate",
+                        value=tool_error_rate,
+                        data_type="NUMERIC",
+                        comment=f"{error_count}/{total_tools} tool calls failed",
+                    )
+                    debug(f"score posted: tool_error_rate={tool_error_rate:.3f}")
+                except Exception as e:
+                    debug(f"score failed: {e}")
 
 # ----------------- Main -----------------
 def main() -> int:
@@ -518,7 +551,7 @@ def main() -> int:
                 emitted += 1
                 turn_num = ss.turn_count + emitted
                 try:
-                    emit_turn(langfuse, session_id, turn_num, t, transcript_path)
+                    emit_turn(langfuse, session_id, turn_num, t, transcript_path, public_key=public_key, secret_key=secret_key, host=host)
                 except Exception as e:
                     debug(f"emit_turn failed: {e}")
                     # continue emitting other turns
