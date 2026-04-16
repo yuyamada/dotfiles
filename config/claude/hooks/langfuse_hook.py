@@ -482,18 +482,28 @@ def emit_turn(langfuse: Langfuse, session_id: str, turn_num: int, turn: Turn, tr
 
             trace_span.update(output={"role": "assistant", "content": assistant_text})
 
-            # Langfuse score: tool error rate (only when tools were used)
-            if tool_error_rate is not None:
-                try:
+            # Langfuse scores: tool usage metrics
+            try:
+                langfuse.score_current_trace(
+                    name="tool_count",
+                    value=total_tools,
+                    data_type="NUMERIC",
+                )
+                langfuse.score_current_trace(
+                    name="tool_error_count",
+                    value=error_count,
+                    data_type="NUMERIC",
+                )
+                if tool_error_rate is not None:
                     langfuse.score_current_trace(
                         name="tool_error_rate",
                         value=tool_error_rate,
                         data_type="NUMERIC",
                         comment=f"{error_count}/{total_tools} tool calls failed",
                     )
-                    debug(f"score posted: tool_error_rate={tool_error_rate:.3f}")
-                except Exception as e:
-                    debug(f"score failed: {e}")
+                debug(f"scores posted: count={total_tools}, errors={error_count}, rate={tool_error_rate}")
+            except Exception as e:
+                debug(f"score failed: {e}")
 
 # ----------------- Main -----------------
 def main() -> int:
