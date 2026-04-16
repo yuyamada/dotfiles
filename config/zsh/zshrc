@@ -23,4 +23,3 @@ if [[ -z "$TMUX" && -o interactive ]]; then
     tmux new-session -A -s default -c ~
   fi
 fi
-

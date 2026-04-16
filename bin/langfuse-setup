@@ -62,12 +62,14 @@ if [ ! -f "$ENV_FILE" ]; then
     mkdir -p "$(dirname "$ENV_FILE")"
     cp "$ENV_TEMPLATE" "$ENV_FILE"
     chmod 600 "$ENV_FILE"
-    warn "作成: $ENV_FILE"
-    warn "Langfuse UI (http://localhost:3000) で組織/プロジェクト/API キーを作成し、"
-    warn "$ENV_FILE の LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY を編集してください"
+    log "env ファイルを作成: $ENV_FILE"
 fi
 
 # 4. docker compose up -d (restart: always により再起動後も自動復帰)
+# LANGFUSE_INIT_* を docker compose に渡すため env ファイルを source する
+# (初回起動時のゼロ設定シードに必要)
+# shellcheck source=/dev/null
+source "$ENV_FILE"
 log "docker compose up -d ($LANGFUSE_DIR)"
 (cd "$LANGFUSE_DIR" && docker compose up -d)
 
@@ -80,11 +82,14 @@ cat <<EOF
 - リポジトリ:  $LANGFUSE_DIR
 - hook venv:   $LANGFUSE_VENV
 
-初回セットアップ:
-  1. http://localhost:3000 にアクセスしてアカウント作成
-  2. 組織 → プロジェクト → API Keys から public/secret key を発行
-  3. $ENV_FILE を編集し TRACE_TO_LANGFUSE=true に切替
-  4. 新しい Claude Code セッションを起動 (zsh が env を読み込む)
+ログイン情報 (初期シード済み):
+  URL:      http://localhost:3000
+  Email:    me@local.dev
+  Password: password
+
+次のステップ:
+  1. 新しい Claude Code セッションを起動 (zsh が env を読み込みトレースが開始)
+  2. 任意: $ENV_FILE を編集してキーや設定をカスタマイズ
 
 停止:   cd $LANGFUSE_DIR && docker compose down
 更新:   $(basename "$0") (再実行で git pull + compose up + pip upgrade)
