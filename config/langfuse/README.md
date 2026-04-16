@@ -20,30 +20,15 @@ langfuse-setup
 3. `config/langfuse/env.template` を `~/.claude/langfuse.env` にコピー
 4. `docker compose up -d` で起動 (`restart: always` により dockerd 起動時に自動復帰)
 
-初回起動後:
+`env.template` には `LANGFUSE_INIT_*` を含むダミーのローカル資格情報が埋め込まれているため、追加の設定なしでそのまま使える:
 
-1. <http://localhost:3000> にアクセスしてアカウント / 組織 / プロジェクトを作成
-2. プロジェクト設定 → API Keys から `pk-lf-...` / `sk-lf-...` を発行
-3. `~/.claude/langfuse.env` を編集して keys を埋め、`TRACE_TO_LANGFUSE=true` に切り替え
-4. 新しい zsh / Claude Code セッションを起動 (`config/zsh/langfuse.sh` が env を source)
+- API キー: `pk-lf-local-1234` / `sk-lf-local-5678`
+- UI ログイン: `me@local.dev` / `password`
+- 初回起動時に org / project / user / API keys が自動シードされ UI 登録は不要
 
-以降、Claude Code の Stop hook (`config/claude/hooks/langfuse_hook.py`) が各ターンを Langfuse に送信する。
+新しい zsh / Claude Code セッションを起動すれば `config/zsh/langfuse.sh` が env を source し、Claude Code の Stop hook (`config/claude/hooks/langfuse_hook.py`) が各ターンを Langfuse に送信する。
 
-### アカウント作成をスキップしたい場合
-
-`~/.claude/langfuse.env` に `LANGFUSE_INIT_*` を設定して compose を再起動すると、初回起動時に org / project / user / API keys が自動シードされ UI 登録が不要になる:
-
-```sh
-export LANGFUSE_INIT_ORG_ID="local-org"
-export LANGFUSE_INIT_ORG_NAME="local"
-export LANGFUSE_INIT_PROJECT_ID="claude-code-project"
-export LANGFUSE_INIT_PROJECT_NAME="claude-code"
-export LANGFUSE_INIT_PROJECT_PUBLIC_KEY="pk-lf-local-1234"
-export LANGFUSE_INIT_PROJECT_SECRET_KEY="sk-lf-local-5678"
-export LANGFUSE_INIT_USER_EMAIL="me@local.dev"
-export LANGFUSE_INIT_USER_NAME="me"
-export LANGFUSE_INIT_USER_PASSWORD="password"
-```
+資格情報を変えたい場合は `~/.claude/langfuse.env` を直接編集する (dotfiles には含まれないマシン固有ファイル)。
 
 ## Mac 再起動後の自動復帰
 
