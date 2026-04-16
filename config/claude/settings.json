@@ -181,6 +181,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'source ~/.claude/langfuse.env 2>/dev/null; exec ~/.claude/langfuse-venv/bin/python ~/.claude/hooks/langfuse_hook.py'",
+            "timeout": 15
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
