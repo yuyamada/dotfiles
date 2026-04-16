@@ -1,5 +1,11 @@
 # Tool Usage
 
+## Session Start: Know Available Tools
+
+- At the start of each session, read `~/.claude/settings.json` to understand which tools are pre-approved
+- The `permissions.allow` array lists all Bash commands, MCP tools, and Read/List/Search patterns that can be used without prompting
+- Use only pre-approved patterns to avoid unnecessary permission prompts
+
 ## Shell Commands
 
 - Always use shell commands (`grep`, `sed`, `awk`, `find`, `jq`, `git`, `ls`, `diff`, etc.) — never use Python or other interpreters
