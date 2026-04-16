@@ -17,6 +17,10 @@ export PATH="/Users/yuyamada/.rd/bin:$PATH"
 eval "$(mise activate zsh)"
 
 
+# claude の再起動エイリアス (/exit 後に `cc` で即再起動)
+alias c='claude'
+alias cc='claude --continue'
+
 # シェル起動時に tmux を自動起動（既に tmux 内なら何もしない）
 if [[ -z "$TMUX" && -o interactive ]]; then
   if command -v tmux &>/dev/null; then
