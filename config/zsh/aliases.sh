@@ -58,6 +58,7 @@ alias lr='ll -R'
 # directory
 alias -- -='cd -'
 alias o='open'
+alias chrome='open -a "Google Chrome"'
 
 # safety
 alias mkdir='mkdir -p'
