@@ -20,3 +20,6 @@ cursor-style-blink = false
 # その他
 scrollback-limit = 10000
 clipboard-trim-trailing-spaces = true
+
+# 画面分割（tmux 内でも Ghostty レイヤで動作）
+keybind = super+shift+backslash=new_split:right
