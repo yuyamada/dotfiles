@@ -1,5 +1,6 @@
 tap "joshmedeski/sesh"
 tap "vjeantet/tap"
+tap "suzuki-shunsuke/ghtkn"
 brew "fzf"
 brew "fd"  # ファイル検索ツール（snacks.nvim の picker で推奨）
 brew "lima"
@@ -16,3 +17,4 @@ brew "joshmedeski/sesh/sesh"
 cask "ghostty"
 cask "gitify"
 cask "wezterm@nightly"
+cask "suzuki-shunsuke/ghtkn/ghtkn"  # 短命な GitHub User Access Token を発行する CLI
