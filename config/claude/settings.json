@@ -136,6 +136,7 @@
       "Bash(uvx python * -c *)"
     ]
   },
+  "model": "sonnet[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -180,7 +181,8 @@
     "slack@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "caffeinate@hiropon-plugins": true
+    "caffeinate@hiropon-plugins": true,
+    "deploy-on-aws@agent-plugins-for-aws": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -199,6 +201,12 @@
       "source": {
         "source": "github",
         "repo": "jeremylongshore/claude-code-plugins"
+      }
+    },
+    "agent-plugins-for-aws": {
+      "source": {
+        "source": "github",
+        "repo": "awslabs/agent-plugins"
       }
     }
   },
