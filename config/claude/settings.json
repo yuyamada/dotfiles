@@ -169,8 +169,6 @@
   },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
-    "serena@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "notion@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
@@ -179,10 +177,7 @@
     "feature-dev@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
-    "chrome-devtools-mcp@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true,
-    "caffeinate@hiropon-plugins": true,
-    "deploy-on-aws@agent-plugins-for-aws": true
+    "gopls-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -233,6 +228,8 @@
       ]
     }
   },
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
   "mcpServers": {
     "aws-documentation": {
       "command": "uvx",
@@ -250,7 +247,5 @@
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
     }
-  },
-  "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true
+  }
 }
