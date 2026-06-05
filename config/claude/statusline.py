@@ -39,12 +39,17 @@ if branch:
     line1 += f" | {branch}"
 line1 += RESET
 
-# Line 2: model | context% | in | out | cached
+def fmt_tok(n):
+    return f"{n // 1000}k" if n >= 1000 else str(n)
+
+# Line 2: model | in_tokens(context%) out_tokens | $cost
 cw       = data.get("context_window", {})
 pct      = int(cw.get("used_percentage", 0))
+in_tok   = cw.get("total_input_tokens", 0)
+out_tok  = cw.get("total_output_tokens", 0)
 cost_usd = data.get("cost", {}).get("total_cost_usd", 0)
-cost_str = f"${cost_usd:.1f}"
+cost_str = f"${cost_usd:.2f}"
 
-line2 = f"{GRAY}{model} | {pct}% | {cost_str}{RESET}"
+line2 = f"{GRAY}{model} | ↑{fmt_tok(in_tok)}({pct}%) ↓{fmt_tok(out_tok)} | {cost_str}{RESET}"
 
 print(f"{line1} {GRAY}|{RESET} {line2}")
