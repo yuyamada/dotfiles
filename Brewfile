@@ -12,6 +12,7 @@ brew "tmux"
 brew "z"
 brew "chafa"  # ターミナル画像表示
 brew "git-delta"  # git diff のシンタックスハイライト
+brew "ccusage"  # Claude Code のトークン使用量・コストを分析する CLI
 brew "vjeantet/tap/alerter"  # macOS 通知にアクションボタンを追加
 brew "joshmedeski/sesh/sesh"
 cask "ghostty"
