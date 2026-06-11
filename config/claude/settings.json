@@ -165,7 +165,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "ccusage statusline --timezone Asia/Tokyo | perl -CS -pe 's/[^\\x00-\\x7F](\\s?)/$2/g; s| / \\$[\\d.]+ block \\(\\dh \\d+m left\\)||; if (/(\\d[\\d,]+) \\((\\d+)%\\)/) { my $pct=$2; my $f=int($pct*8/100+0.5); my $c=$pct<40?\"\":$pct<60?\"\\x1b[33m\":\"\\x1b[31m\"; my $r=$c?\"\\x1b[0m\":\"\"; my $bar=\"\\x{2501}\"x$f.\"\\x{2500}\"x(8-$f); s/(\\d[\\d,]+) \\((\\d+)%\\)/${c}|$bar| $2%${r}/ }'"
+    "command": "bash ~/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
