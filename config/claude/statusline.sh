@@ -13,8 +13,8 @@ if [[ -f "$CACHE" ]]; then
 fi
 
 if [[ -z "$monthly" ]]; then
-  this_month=$(TZ=Asia/Tokyo date +%Y-%m)
-  monthly=$(ccusage monthly --json --timezone Asia/Tokyo 2>/dev/null \
+  this_month=$(TZ=UTC date +%Y-%m)
+  monthly=$(ccusage monthly --json --timezone UTC 2>/dev/null \
     | grep -A1 "\"period\": \"$this_month\"" \
     | grep '"totalCost"' \
     | grep -o '[0-9.]*' | head -1)
@@ -24,7 +24,7 @@ fi
 monthly_fmt=$(printf '%.1f' "${monthly:-0}")
 
 cat - \
-  | ccusage statusline --timezone Asia/Tokyo \
+  | ccusage statusline --timezone UTC --cost-source cc \
   | sed "s|today|today / \$${monthly_fmt} mo|" \
   | perl -CS -pe '
     s/[^\x00-\x7F](\s?)/$2/g;
