@@ -4,6 +4,13 @@
 CACHE=/tmp/ccusage_monthly_cache
 NOW=$(date +%s)
 
+# Branch or worktree name from the project directory
+branch=$(git branch --show-current 2>/dev/null)
+if [[ -z "$branch" ]]; then
+  toplevel=$(git rev-parse --show-toplevel 2>/dev/null)
+  [[ -n "$toplevel" ]] && branch=$(basename "$toplevel")
+fi
+
 # 月次コストを 60 秒キャッシュ
 if [[ -f "$CACHE" ]]; then
   cached_at=$(head -1 "$CACHE")
@@ -38,4 +45,5 @@ cat - \
       my $bar = "\x{2501}" x $f . "\x{2500}" x (8 - $f);
       s/(\d[\d,]+) \((\d+)%\)/${c}|$bar| $2%${r}/;
     }
-  '
+  ' \
+  | awk -v b="${branch}" 'b != "" { $0 = $0 " ["b"]" } 1'
