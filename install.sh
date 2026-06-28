@@ -130,6 +130,27 @@ setup_langfuse() {
     link_file "$DOTFILES_DIR/bin/langfuse-setup" "$HOME/.local/bin/langfuse-setup"
 }
 
+setup_otel() {
+    local plist_dst="$HOME/Library/LaunchAgents/com.claude.otel.plist"
+    local template="$DOTFILES_DIR/config/claude/otel/com.claude.otel.plist.template"
+
+    local docker_path
+    docker_path=$(which docker 2>/dev/null) || {
+        echo "⚠️  docker が見つかりません。OTel LaunchAgent のセットアップをスキップします"
+        return
+    }
+
+    sed -e "s|DOTFILES_DIR|$DOTFILES_DIR|g" \
+        -e "s|/usr/local/bin/docker|$docker_path|g" \
+        "$template" > "$plist_dst"
+
+    if launchctl list com.claude.otel &>/dev/null 2>&1; then
+        launchctl unload "$plist_dst" 2>/dev/null || true
+    fi
+    launchctl load "$plist_dst"
+    echo "✅ OTel stack LaunchAgent を登録しました ($docker_path)"
+}
+
 setup_anthropic() {
     read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
     echo
@@ -155,6 +176,7 @@ setup_all() {
     setup_ccvm
     setup_langfuse
     setup_anthropic
+    setup_otel
 }
 
 # ---- Dispatch ----
@@ -174,9 +196,10 @@ else
             ccvm)           setup_ccvm ;;
             langfuse)       setup_langfuse ;;
             anthropic)      setup_anthropic ;;
+            otel)           setup_otel ;;
             *)
                 echo "Unknown target: $target" >&2
-                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic" >&2
+                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel" >&2
                 exit 1
                 ;;
         esac
