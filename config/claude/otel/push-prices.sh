@@ -19,8 +19,8 @@ emit_model() {
   for mapping in \
     "input:input_cost_per_token" \
     "output:output_cost_per_token" \
-    "cache_read:cache_read_input_token_cost" \
-    "cache_creation:cache_creation_input_token_cost"
+    "cacheRead:cache_read_input_token_cost" \
+    "cacheCreation:cache_creation_input_token_cost"
   do
     type_name="${mapping%%:*}"
     json_key="${mapping##*:}"
@@ -47,16 +47,6 @@ emit_model() {
     emit_model "$model" "$model"
   done
 
-  # Claude Code appends [1m] to current-gen models when using extended context.
-  # The pricing is identical to the base model — just register under the [1m] label.
-  for base in \
-    "claude-sonnet-4-6" \
-    "claude-opus-4-6" \
-    "claude-opus-4-7" \
-    "claude-opus-4-8"
-  do
-    emit_model "$base" "${base}[1m]"
-  done
 
 } | curl -sf --data-binary @- "${PUSHGATEWAY}/metrics/job/claude_prices"
 
