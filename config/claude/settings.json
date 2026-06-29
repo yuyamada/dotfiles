@@ -142,7 +142,7 @@
       "Bash(uvx python * -c *)"
     ]
   },
-  "model": "sonnet[1m]",
+  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
