@@ -8,6 +8,8 @@ NOW=$(date +%s)
 # Read stdin once up front so it can be reused for both ccusage and the turn-cost calc below.
 input=$(cat)
 
+transcript_path=$(echo "$input" | jq -r '.transcript_path // empty')
+
 # USD per million tokens. Update when https://platform.claude.com/docs/en/about-claude/pricing changes.
 # cache_creation is billed as a 5-minute write (1.25x) unless Claude Code used the 1h cache;
 # current_usage doesn't expose that split, so this assumes the common 5m case.
@@ -30,6 +32,32 @@ turn_cost=$(echo "$input" | jq -r '
     ) | tostring
     end
 ' 2>/dev/null)
+
+# /clear (aliases /reset, /new) starts a fresh conversation but keeps the same session file,
+# so conversation cost is summed only from entries after the last such boundary.
+conv_cost=""
+if [[ -n "$transcript_path" && -f "$transcript_path" ]]; then
+  boundary=$(grep -n '"content":"<command-name>/\(clear\|reset\|new\)</command-name>' "$transcript_path" 2>/dev/null | tail -1 | cut -d: -f1)
+  conv_cost=$(tail -n "+${boundary:-1}" "$transcript_path" 2>/dev/null | jq -s -r '
+    def price:
+      if . == "claude-opus-4-8" or . == "claude-opus-4-7" or . == "claude-opus-4-6" or . == "claude-opus-4-5" then {in:5,out:25}
+      elif . == "claude-sonnet-5" then {in:2,out:10}
+      elif . == "claude-sonnet-4-6" or . == "claude-sonnet-4-5" then {in:3,out:15}
+      elif . == "claude-haiku-4-5" then {in:1,out:5}
+      else {in:2,out:10} end;
+    map(select(.type == "assistant" and .message.usage != null))
+    | unique_by(.message.id)
+    | map(
+        (.message.model | price) as $p
+        | .message.usage as $u
+        | ($u.input_tokens // 0) * $p.in
+          + ($u.cache_creation_input_tokens // 0) * $p.in * 1.25
+          + ($u.cache_read_input_tokens // 0) * $p.in * 0.1
+          + ($u.output_tokens // 0) * $p.out
+      )
+    | (add // 0) / 1000000
+  ' 2>/dev/null)
+fi
 
 # Branch or worktree name from the project directory
 branch=$(git branch --show-current 2>/dev/null)
@@ -77,6 +105,9 @@ today_fmt=$(printf '%.1f' "${today:-0}")
 turn_fmt=""
 [[ -n "$turn_cost" ]] && turn_fmt=$(printf ' (+$%.3f)' "$turn_cost")
 
+conv_fmt=""
+[[ -n "$conv_cost" ]] && conv_fmt=$(printf '%.1f' "$conv_cost")
+
 echo "$input" \
   | ccusage statusline --timezone UTC --cost-source cc \
   | perl -CS -pe '
@@ -99,14 +130,18 @@ echo "$input" \
       s/(\d[\d,]+) \((\d+)%\)/${c}$tok\/200k |$bar| ${newpct}%${r}/;
     }
   ' \
-  | awk -v tf="${today_fmt}" -v mf="${monthly_fmt}" -v tc="${turn_fmt}" -v b="${branch}" '
+  | awk -v tf="${today_fmt}" -v mf="${monthly_fmt}" -v cf="${conv_fmt}" -v tc="${turn_fmt}" -v b="${branch}" '
     {
       # ccusage statusline itself always reports $0.00 for "today" regardless of --cost-source;
       # tf is computed separately above via `ccusage daily --json`.
       gsub(/\$[0-9.]+ today/, "$" tf " today")
+      # ccusage session cost accumulates for the whole process, not the current
+      # conversation; cf is the /clear-boundary-scoped cost computed separately above.
+      if (cf != "") gsub(/\$[0-9.]+ session/, "$" cf " session")
       gsub(/ \//, " |")
-      gsub(/session/, "session" tc)
+      gsub(/session/, "conv" tc)
       sub(/today/, "today | $" mf " mo")
+      gsub(/today/, "day")
       if (b != "") { $0 = $0 " [" b "]" }
       print
     }
