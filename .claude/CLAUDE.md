@@ -39,4 +39,4 @@ Brewfile                # Homebrew パッケージ一覧
 - プラグインは `settings.json` の `enabledPlugins` で管理（インストール後 `/reload-plugins` が必要）
 - スキルの `allowed-tools` に git/gh コマンドを列挙すると権限プロンプトをスキップできる
 - スキルの `!`コマンド構文でスキル起動時にシェルコマンドを実行してコンテキストを注入できる
-- `statusline.py` は `config/claude/statusline.py` → `~/.claude/statusline.py` にシンボリックリンク
+- `statusline.sh` は `config/claude/statusline.sh` → `~/.claude/statusline.sh` にシンボリックリンク
