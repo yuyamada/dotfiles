@@ -157,6 +157,18 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-tool-cost.sh",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
