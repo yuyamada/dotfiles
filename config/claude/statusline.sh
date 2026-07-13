@@ -114,7 +114,7 @@ echo "$input" \
     s/[^\x00-\x7F](\s?)/$2/g;
     s/\$(\d+\.\d)\d+/\$$1/g;
     s/ \| \$[\d.]+\/hr//;
-    s| / \$[\d.]+ block \(\dh \d+m left\)||;
+    s| / \$[\d.]+ block \((\d+h )?\d+m left\)||;
     if (/(\d[\d,]+) \((\d+)%\)/) {
       my $raw = $1;
       my $pct = $2;
