@@ -9,7 +9,7 @@ description: >
   has a fuzzy problem statement and wants help shaping it into an actionable
   GitHub issue. Accepts an optional --repo owner/repo argument to target a
   specific repository; otherwise auto-detects from the current directory.
-allowed-tools: Bash(gh repo view:*), Bash(gh issue create:*), Bash(gh issue list:*), Bash(open:*)
+allowed-tools: Bash(gh repo view:*), Bash(gh api --method GET *), Bash(gh issue create:*), Bash(gh issue list:*), Bash(open:*)
 ---
 
 ## Context
@@ -44,7 +44,33 @@ the ones that are actually unclear:
 Keep it conversational. One or two focused questions is usually enough.
 If the user's message is already detailed, skip directly to Step 3.
 
-## Step 3: Draft the issue
+## Step 3: Check for a repo issue template
+
+Before drafting anything, check whether the target repo defines its own
+issue template(s) — always do this, even if the idea already feels
+well-formed. Using the repo's own structure beats inventing a generic one.
+
+```bash
+gh api --method GET repos/<owner>/<repo>/contents/.github/ISSUE_TEMPLATE --jq '.[].name'
+```
+
+- If this lists one or more files: fetch the one that best matches what the
+  user described (match on the template's `name:`/`about:` frontmatter —
+  e.g. a task/investigation vs. a bug vs. a feature request). If more than
+  one plausibly fits, ask the user which to use.
+
+  ```bash
+  gh api --method GET repos/<owner>/<repo>/contents/.github/ISSUE_TEMPLATE/<file> --jq '.content' | base64 -d
+  ```
+
+  Use that template's exact section structure for Step 4 — keep its
+  headings, checkbox lists, and HTML comments/placeholders as scaffolding,
+  filling them in with the gathered content. Carry over its `title:`
+  prefix/labels from the frontmatter if present.
+- If the command 404s or returns nothing: no repo-specific template exists.
+  Fall back to the generic structure in Step 4.
+
+## Step 4: Draft the issue
 
 Write a title and body based on what you've gathered.
 
@@ -52,7 +78,8 @@ Write a title and body based on what you've gathered.
 - Bug: what goes wrong, e.g. `git remote not detected in monorepo workspaces`
 - Feature: verb + what, e.g. `Add --repo flag to github-issue skill`
 
-**Body** — use this structure, omit sections that don't apply:
+**Body** — if a repo template was found in Step 3, follow its structure.
+Otherwise use this generic structure, omitting sections that don't apply:
 
 ```
 ## Summary
@@ -66,12 +93,12 @@ Write a title and body based on what you've gathered.
 <optional: motivation, related issues, links, screenshots>
 ```
 
-## Step 4: Confirm with the user
+## Step 5: Confirm with the user
 
 Show the full draft (title + body) and ask if they're happy with it.
 Let the user edit anything. Proceed only after they confirm.
 
-## Step 5: Create the issue
+## Step 6: Create the issue
 
 ```bash
 gh issue create --repo <owner/repo> --title "<title>" --body "<body>"
