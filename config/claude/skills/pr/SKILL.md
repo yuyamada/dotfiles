@@ -12,7 +12,7 @@ allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git push:*), Bash(git bra
 
 - Branch: !`git branch --show-current`
 - Unpushed commits: !`git log '@{u}..HEAD' --oneline 2>/dev/null || echo "none"`
-- PR template: !`cat .github/pull_request_template.md 2>/dev/null || echo "none"`
+- PR template: !`cat .github/pull_request_template.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null || cat docs/pull_request_template.md 2>/dev/null || cat pull_request_template.md 2>/dev/null || ls .github/PULL_REQUEST_TEMPLATE/ 2>/dev/null || echo "none"`
 
 ## Overview
 
@@ -46,7 +46,14 @@ If the branch doesn't exist on remote yet, push it. If the user says no, stop he
 
 ### Step 2: Find the PR format
 
-If a PR template was found above, use it as the structure for the body.
+If a single PR template was found above, use it as the structure for the body.
+
+If the check above instead returned a list of filenames (a `.github/PULL_REQUEST_TEMPLATE/`
+directory with multiple templates), fetch and use the best-matching one:
+```bash
+cat .github/PULL_REQUEST_TEMPLATE/<file>
+```
+If more than one plausibly fits, ask the user which to use.
 
 If no template, check recent PRs to understand the expected style:
 ```bash

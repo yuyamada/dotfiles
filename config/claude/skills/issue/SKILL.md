@@ -1,5 +1,5 @@
 ---
-name: create-issue
+name: issue
 description: >
   Create a well-structured GitHub issue from a vague or rough idea.
   Use when the user wants to file a GitHub issue, capture a bug or feature
