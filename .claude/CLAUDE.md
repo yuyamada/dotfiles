@@ -9,7 +9,7 @@ config/
 ├── claude/
 │   ├── CLAUDE.md       # ~/.claude/CLAUDE.md にシンボリックリンク（.cursorrules にもコピー）
 │   ├── settings.json   # ~/.claude/settings.json にシンボリックリンク
-│   ├── rules/          # ~/.claude/rules/ にシンボリックリンク（@import で CLAUDE.md から読み込み）
+│   ├── references/     # ~/.claude/references/ にシンボリックリンク（CLAUDE.md にインデックスを書き、必要時に Read）
 │   ├── agents/         # ~/.claude/agents/ にシンボリックリンク
 │   └── skills/         # ~/.claude/skills/<name> にシンボリックリンク
 ├── nvim/               # ~/.config/nvim にシンボリックリンク

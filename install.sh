@@ -94,7 +94,7 @@ setup_claude() {
     done
     link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
     link_file "$DOTFILES_DIR/config/claude/agents" "$HOME/.claude/agents"
-    link_file "$DOTFILES_DIR/config/claude/rules" "$HOME/.claude/rules"
+    link_file "$DOTFILES_DIR/config/claude/references" "$HOME/.claude/references"
     mkdir -p "$HOME/.claude/hooks"
     for hook_file in "$DOTFILES_DIR/config/claude/hooks"/*; do
         [ -f "$hook_file" ] || continue
