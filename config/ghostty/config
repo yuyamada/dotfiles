@@ -6,6 +6,8 @@ macos-option-as-alt = true
 theme = Iceberg Dark
 
 # フォント
+font-family = JetBrains Mono NL
+font-family = Hiragino Kaku Gothic ProN
 font-size = 16
 font-feature = -calt
 
