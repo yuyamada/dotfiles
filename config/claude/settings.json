@@ -8,7 +8,8 @@
     "OTEL_METRICS_EXPORTER": "otlp",
     "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
     "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:24317",
-    "OTEL_METRIC_EXPORT_INTERVAL": "30000"
+    "OTEL_METRIC_EXPORT_INTERVAL": "30000",
+    "LOG_ES_MCP_AWS_PROFILE": "log-es-mcp-prod"
   },
   "permissions": {
     "allow": [
@@ -186,7 +187,8 @@
     "feature-dev@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true
+    "gopls-lsp@claude-plugins-official": true,
+    "log-es@log-es": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -211,6 +213,13 @@
       "source": {
         "source": "github",
         "repo": "awslabs/agent-plugins"
+      }
+    },
+    "log-es": {
+      "source": {
+        "source": "github",
+        "repo": "Nikkei/log-es",
+        "ref": "feat-log-es-mcp-skill"
       }
     }
   },
