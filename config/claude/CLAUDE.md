@@ -12,8 +12,11 @@ having seen it in an earlier turn of this one.
   mode for 3+ step tasks, delegate research to sub-agents, verify before
   claiming done). Read before: starting a non-trivial multi-step task.
 - `references/writing.md` — Japanese text spacing around embedded English
-  words/symbols. Read before: writing Japanese prose that mixes in English
-  terms.
+  words/symbols, parentheses convention, emoji policy. Read before: writing
+  Japanese prose that mixes in English terms.
+- `references/markdown.md` — Markdown formatting conventions (list markers,
+  code block language tags, heading blank lines, sparing bold). Read before:
+  writing or editing Markdown files.
 - `references/skills.md` — skill authoring conventions (English only, symlink
   placement under `config/claude/skills/<name>/`, company-specific skills stay
   out of public dotfiles). Read before: creating or editing a skill.

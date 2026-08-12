@@ -74,6 +74,7 @@
       "Bash(kubectl logs *)",
       "Read(~/.claude/settings.json)",
       "Read(~/.claude/projects/**)",
+      "Read(~/.claude/references/**)",
       "Read(~/.claude/skills/my-tasks/*)",
       "Read(~/.claude/skills/retrospect/*)",
       "Bash(~/.claude/skills/my-tasks/scripts/*)",
