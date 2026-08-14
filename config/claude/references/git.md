@@ -8,6 +8,9 @@
   metadata lives in `.git/worktrees/`, separate from the working tree)
 - Never run aggressive cleanup (`git clean -ffdx`) in a repo that has live
   worktrees nested inside it
+- Before creating a new branch or worktree, always `git fetch` and confirm
+  the base branch is up to date with its remote-tracking branch
+- If it's behind, update it (e.g. `git pull`) before branching off it
 
 ## Ignore Strategy
 Choose the ignore layer by who should see the rule, not by convenience:
