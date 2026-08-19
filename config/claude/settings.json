@@ -44,6 +44,7 @@
       "Bash(git diff *)",
       "Bash(git fetch *)",
       "Bash(git log *)",
+      "Bash(git pull *)",
       "Bash(git rev-parse *)",
       "Bash(git show *)",
       "Bash(git status *)",
