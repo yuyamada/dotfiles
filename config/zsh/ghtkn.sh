@@ -10,4 +10,8 @@ if command -v ghtkn >/dev/null 2>&1; then
   gh-login() {
     command gh auth login --scopes "repo,read:org,workflow,project" "$@"
   }
+
+  gh-personal() {
+    command gh "$@"
+  }
 fi
