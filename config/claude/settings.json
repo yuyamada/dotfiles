@@ -148,6 +148,9 @@
       "Bash(python2 * -c *)",
       "Bash(uv run python * -c *)",
       "Bash(uvx python * -c *)"
+    ],
+    "ask": [
+      "Bash(gh-write:*)"
     ]
   },
   "model": "sonnet",

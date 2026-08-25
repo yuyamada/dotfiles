@@ -1,10 +1,10 @@
 if command -v ghtkn >/dev/null 2>&1; then
   gh() {
-    env GH_TOKEN=$(ghtkn get nikkei-ghtkn-readonly) command gh "$@"
+    ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readonly -- gh "$@"
   }
 
   gh-write() {
-    command gh "$@"
+    ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readwrite -- gh "$@"
   }
 
   gh-login() {
