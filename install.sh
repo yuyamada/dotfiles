@@ -18,6 +18,8 @@
 #   ccvm        ~/.local/bin/ccvm をリンク
 #   langfuse    ~/.local/bin/langfuse-setup をリンク
 #   anthropic   Anthropic API キーを Keychain に登録
+#   otel        Claude Code の OTel スタックの LaunchAgent を登録
+#   ghtkn-agent ghtkn agent の LaunchAgent を登録（自動起動）
 
 set -euo pipefail
 
@@ -151,6 +153,28 @@ setup_otel() {
     echo "✅ OTel stack LaunchAgent を登録しました ($docker_path)"
 }
 
+setup_ghtkn_agent() {
+    local plist_dst="$HOME/Library/LaunchAgents/com.ghtkn.agent.plist"
+    local template="$DOTFILES_DIR/config/ghtkn/com.ghtkn.agent.plist.template"
+
+    local ghtkn_path
+    ghtkn_path=$(which ghtkn 2>/dev/null) || {
+        echo "⚠️  ghtkn が見つかりません。ghtkn agent LaunchAgent のセットアップをスキップします"
+        return
+    }
+
+    sed -e "s|DOTFILES_DIR|$DOTFILES_DIR|g" \
+        -e "s|GHTKN_PATH|$ghtkn_path|g" \
+        "$template" > "$plist_dst"
+
+    if launchctl list com.ghtkn.agent &>/dev/null 2>&1; then
+        launchctl unload "$plist_dst" 2>/dev/null || true
+    fi
+    launchctl load "$plist_dst"
+    echo "✅ ghtkn agent LaunchAgent を登録しました ($ghtkn_path)"
+    echo "   ロック解除には 'ghtkn agent unlock --enable-refresh' を実行してください"
+}
+
 setup_anthropic() {
     read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
     echo
@@ -177,6 +201,7 @@ setup_all() {
     setup_langfuse
     setup_anthropic
     setup_otel
+    setup_ghtkn_agent
 }
 
 # ---- Dispatch ----
@@ -197,9 +222,10 @@ else
             langfuse)       setup_langfuse ;;
             anthropic)      setup_anthropic ;;
             otel)           setup_otel ;;
+            ghtkn-agent)    setup_ghtkn_agent ;;
             *)
                 echo "Unknown target: $target" >&2
-                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel" >&2
+                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel ghtkn-agent" >&2
                 exit 1
                 ;;
         esac
