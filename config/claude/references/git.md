@@ -62,6 +62,7 @@ Choose the ignore layer by who should see the rule, not by convenience:
   leave sections empty. Without a template, match the style of recent PRs
 - Show the full drafted title and body to the user and wait for confirmation
   before creating — let them edit if needed
-- Always create as draft first: `gh pr create --draft --title "<title>" --body "<body>"`
+- Always create as draft first, and assign yourself as assignee:
+  `gh pr create --draft --assignee @me --title "<title>" --body "<body>"`
 - After creating, show the PR URL and ask if the user wants to open it in
   the browser
