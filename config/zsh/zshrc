@@ -24,6 +24,6 @@ alias cc='claude --continue'
 # シェル起動時に herdr を自動起動（既に tmux 内、herdr ペイン内、relogin 直後は何もしない）
 if [[ -z "$TMUX" && -z "$HERDR_ENV" && -z "$HERDR_SKIP_AUTOSTART" && -o interactive ]]; then
   if command -v herdr &>/dev/null; then
-    herdr
+    s .
   fi
 fi
