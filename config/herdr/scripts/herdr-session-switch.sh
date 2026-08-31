@@ -1,5 +1,5 @@
 #!/bin/bash
-# herdr-session-switch.sh - sesh 相当。パス指定 or 無指定(fzf、既定値はカレントディレクトリ/未知なら home)で herdr workspace を作成/切り替え
+# herdr-session-switch.sh - sesh 相当。パス指定 or 無指定(fzf で既存 workspace から選択)で herdr workspace を作成/切り替え
 set -euo pipefail
 
 workspace_id_by_label() {
@@ -28,18 +28,7 @@ else
   existing_labels=$(herdr workspace list | jq -r '.result.workspaces[].label')
   candidates=$(printf '%s\n' "$existing_labels" | awk 'NF' | sort -u)
 
-  if [ "$PWD" = "$HOME" ]; then
-    cwd_label="~"
-  else
-    cwd_label=$(basename "$PWD")
-  fi
-  if printf '%s\n' "$existing_labels" | grep -qxF -- "$cwd_label"; then
-    default_query="$cwd_label"
-  else
-    default_query="~"
-  fi
-
-  selected=$(printf '%s\n' "$candidates" | fzf --prompt="workspace> " --query="$default_query")
+  selected=$(printf '%s\n' "$candidates" | fzf --prompt="workspace> ")
   if [ -n "$selected" ]; then
     existing_id=$(workspace_id_by_label "$selected")
     if [ -n "$existing_id" ]; then
