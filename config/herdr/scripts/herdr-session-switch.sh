@@ -9,7 +9,11 @@ workspace_id_by_label() {
 open_path() {
   local target_path label existing_id
   target_path=$(cd "$1" && pwd)
-  label=$(basename "$target_path")
+  if [ "$target_path" = "$HOME" ]; then
+    label="~"
+  else
+    label=$(basename "$target_path")
+  fi
   existing_id=$(workspace_id_by_label "$label")
   if [ -n "$existing_id" ]; then
     herdr workspace focus "$existing_id" >/dev/null
@@ -24,11 +28,15 @@ else
   existing_labels=$(herdr workspace list | jq -r '.result.workspaces[].label')
   candidates=$(printf '%s\n' "$existing_labels" | awk 'NF' | sort -u)
 
-  cwd_label=$(basename "$PWD")
+  if [ "$PWD" = "$HOME" ]; then
+    cwd_label="~"
+  else
+    cwd_label=$(basename "$PWD")
+  fi
   if printf '%s\n' "$existing_labels" | grep -qxF -- "$cwd_label"; then
     default_query="$cwd_label"
   else
-    default_query=$(basename "$HOME")
+    default_query="~"
   fi
 
   selected=$(printf '%s\n' "$candidates" | fzf --prompt="workspace> " --query="$default_query")
