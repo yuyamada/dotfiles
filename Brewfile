@@ -9,6 +9,7 @@ brew "neovim"
 brew "sheldon"
 brew "starship"
 brew "tmux"
+brew "herdr"  # AI エージェント向けのターミナルマルチプレクサ
 brew "z"
 brew "chafa"  # ターミナル画像表示
 brew "git-delta"  # git diff のシンタックスハイライト
