@@ -13,13 +13,31 @@ if [ -n "$HERDR_ENV" ]; then
   }
   preexec_functions+=(_herdr_set_process)
 
-  # コマンド終了後: カレントディレクトリをペインタイトルに（フォーカス中のペインならタブ名も更新）
-  _herdr_set_path() {
+  # カレントディレクトリを ~/w/dotfiles のような略記に変換（/ と home 直下の境界ケースを個別に処理）
+  _herdr_abbreviate_cwd() {
     local short="${PWD/#$HOME/~}"
+    if [ "$short" = "~" ] || [ "$short" = "/" ]; then
+      echo "$short"
+      return
+    fi
     local dir=$(dirname "$short")
     local base=$(basename "$short")
-    local abbr=$(echo "$dir" | sed 's|/\([^/]\)[^/]*|/\1|g')
-    local cwd_label="${abbr}/${base}"
+    local abbr
+    if [ "$dir" = "~" ] || [ "$dir" = "/" ]; then
+      abbr="$dir"
+    else
+      abbr=$(echo "$dir" | sed 's|/\([^/]\)[^/]*|/\1|g')
+    fi
+    case "$abbr" in
+      "/") echo "/${base}" ;;
+      "~") echo "~/${base}" ;;
+      *) echo "${abbr}/${base}" ;;
+    esac
+  }
+
+  # コマンド終了後: カレントディレクトリをペインタイトルに（フォーカス中のペインならタブ名も更新）
+  _herdr_set_path() {
+    local cwd_label=$(_herdr_abbreviate_cwd)
     herdr pane rename "$HERDR_PANE_ID" "$cwd_label" >/dev/null 2>&1
     [ "$(_herdr_focused)" = "true" ] && herdr tab rename "$HERDR_TAB_ID" "$cwd_label" >/dev/null 2>&1
   }
