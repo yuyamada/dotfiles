@@ -11,6 +11,13 @@ settings = "prefix+."
 split_vertical = "prefix+|"
 detach = "prefix+d"
 
+[[keys.command]]
+key = "prefix+a"
+type = "popup"
+command = "~/.config/herdr/scripts/herdr-agent-picker.sh"
+width = "80%"
+height = "60%"
+
 [ui]
 prompt_new_tab_name = false
 sidebar_width = 20
