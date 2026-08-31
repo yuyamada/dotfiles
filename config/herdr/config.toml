@@ -9,9 +9,9 @@ prefix = "ctrl+f"
 goto = "prefix+s"
 settings = "prefix+."
 split_vertical = "prefix+|"
+detach = "prefix+d"
 
 [ui]
 sidebar_width = 20
 sidebar_start_collapsed = true
 sidebar_collapsed_mode = "hidden"
-
