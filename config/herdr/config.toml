@@ -28,3 +28,6 @@ tab_bar_right = [{ type = "command", command = "~/.config/herdr/scripts/herdr-ac
 
 [ui.toast]
 delivery = "terminal"
+
+[ui.sound]
+enabled = false
