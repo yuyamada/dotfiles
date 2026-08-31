@@ -2,8 +2,6 @@
 # herdr-session-switch.sh - sesh 相当。パス指定 or 無指定(fzf、既定値はカレントディレクトリ/未知なら home)で herdr workspace を作成/切り替え
 set -euo pipefail
 
-Z_FILE="$HOME/.z"
-
 workspace_id_by_label() {
   herdr workspace list | jq -r --arg l "$1" '.result.workspaces[] | select(.label == $l) | .workspace_id' | head -1
 }
@@ -24,8 +22,7 @@ if [ $# -ge 1 ]; then
   open_path "$1"
 else
   existing_labels=$(herdr workspace list | jq -r '.result.workspaces[].label')
-  z_dirs=$(sort -t'|' -k2 -rn "$Z_FILE" 2>/dev/null | cut -d'|' -f1)
-  candidates=$(printf '%s\n%s\n' "$existing_labels" "$z_dirs" | awk 'NF' | sort -u)
+  candidates=$(printf '%s\n' "$existing_labels" | awk 'NF' | sort -u)
 
   cwd_label=$(basename "$PWD")
   if printf '%s\n' "$existing_labels" | grep -qxF -- "$cwd_label"; then
