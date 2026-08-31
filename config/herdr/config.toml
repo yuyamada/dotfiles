@@ -8,6 +8,7 @@ auto_switch = false
 prefix = "ctrl+f"
 goto = "prefix+s"
 settings = "prefix+."
+split_vertical = "prefix+|"
 
 [ui]
 sidebar_width = 20
