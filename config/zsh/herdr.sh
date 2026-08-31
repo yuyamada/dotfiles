@@ -4,15 +4,6 @@ if [ -n "$HERDR_ENV" ]; then
     herdr pane get "$HERDR_PANE_ID" 2>/dev/null | jq -r '.result.pane.focused'
   }
 
-  # コマンド実行中: プロセス名をペインタイトルに（フォーカス中のペインならタブ名も更新）
-  _herdr_set_process() {
-    local cmd="${1%% *}"        # 最初のスペースで切って実行コマンド名だけ取る
-    local name="${cmd##*/}"     # パスが含まれる場合、ベース名だけ取る
-    herdr pane rename "$HERDR_PANE_ID" "$name" >/dev/null 2>&1
-    [ "$(_herdr_focused)" = "true" ] && herdr tab rename "$HERDR_TAB_ID" "$name" >/dev/null 2>&1
-  }
-  preexec_functions+=(_herdr_set_process)
-
   # カレントディレクトリを ~/w/dotfiles のような略記に変換（/ と home 直下の境界ケースを個別に処理）
   _herdr_abbreviate_cwd() {
     local short="${PWD/#$HOME/~}"
@@ -35,7 +26,17 @@ if [ -n "$HERDR_ENV" ]; then
     esac
   }
 
-  # コマンド終了後: カレントディレクトリをペインタイトルに（フォーカス中のペインならタブ名も更新）
+  # コマンド実行中: 「パス コマンド名」をペインタイトルに（フォーカス中のペインならタブ名も更新）
+  _herdr_set_process() {
+    local cmd="${1%% *}"        # 最初のスペースで切って実行コマンド名だけ取る
+    local name="${cmd##*/}"     # パスが含まれる場合、ベース名だけ取る
+    local label="$(_herdr_abbreviate_cwd) ${name}"
+    herdr pane rename "$HERDR_PANE_ID" "$label" >/dev/null 2>&1
+    [ "$(_herdr_focused)" = "true" ] && herdr tab rename "$HERDR_TAB_ID" "$label" >/dev/null 2>&1
+  }
+  preexec_functions+=(_herdr_set_process)
+
+  # コマンド終了後: カレントディレクトリだけをペインタイトルに（フォーカス中のペインならタブ名も更新）
   _herdr_set_path() {
     local cwd_label=$(_herdr_abbreviate_cwd)
     herdr pane rename "$HERDR_PANE_ID" "$cwd_label" >/dev/null 2>&1
