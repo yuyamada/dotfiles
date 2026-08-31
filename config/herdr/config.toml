@@ -6,3 +6,5 @@ auto_switch = false
 
 [keys]
 prefix = "ctrl+f"
+goto = "prefix+s"
+settings = "prefix+."
