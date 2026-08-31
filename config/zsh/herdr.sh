@@ -19,9 +19,9 @@ if [ -n "$HERDR_ENV" ]; then
     local dir=$(dirname "$short")
     local base=$(basename "$short")
     local abbr=$(echo "$dir" | sed 's|/\([^/]\)[^/]*|/\1|g')
-    local path="${abbr}/${base}"
-    herdr pane rename "$HERDR_PANE_ID" "$path" >/dev/null 2>&1
-    [ "$(_herdr_focused)" = "true" ] && herdr tab rename "$HERDR_TAB_ID" "$path" >/dev/null 2>&1
+    local cwd_label="${abbr}/${base}"
+    herdr pane rename "$HERDR_PANE_ID" "$cwd_label" >/dev/null 2>&1
+    [ "$(_herdr_focused)" = "true" ] && herdr tab rename "$HERDR_TAB_ID" "$cwd_label" >/dev/null 2>&1
   }
   precmd_functions+=(_herdr_set_path)
 fi
