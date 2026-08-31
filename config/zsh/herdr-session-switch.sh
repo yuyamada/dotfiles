@@ -14,9 +14,9 @@ open_path() {
   label=$(basename "$target_path")
   existing_id=$(workspace_id_by_label "$label")
   if [ -n "$existing_id" ]; then
-    herdr workspace focus "$existing_id"
+    herdr workspace focus "$existing_id" >/dev/null
   else
-    herdr workspace create --cwd "$target_path" --label "$label" --focus
+    herdr workspace create --cwd "$target_path" --label "$label" --focus >/dev/null
   fi
 }
 
@@ -33,7 +33,7 @@ selected=$(printf '%s\n%s\n' "$existing_labels" "$z_dirs" | awk 'NF' | sort -u |
 
 existing_id=$(workspace_id_by_label "$selected")
 if [ -n "$existing_id" ]; then
-  herdr workspace focus "$existing_id"
+  herdr workspace focus "$existing_id" >/dev/null
 elif [ -d "$selected" ]; then
   open_path "$selected"
 fi
