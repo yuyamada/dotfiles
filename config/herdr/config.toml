@@ -25,3 +25,6 @@ sidebar_start_collapsed = true
 sidebar_collapsed_mode = "hidden"
 tab_bar_position = "bottom"
 tab_bar_right = [{ type = "command", command = "~/.config/herdr/scripts/herdr-active-workspace-label.sh" }]
+
+[ui.toast]
+delivery = "terminal"
