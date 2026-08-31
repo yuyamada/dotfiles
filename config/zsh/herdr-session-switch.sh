@@ -22,18 +22,22 @@ open_path() {
 
 if [ $# -ge 1 ]; then
   open_path "$1"
-  exit 0
+else
+  existing_labels=$(herdr workspace list | jq -r '.result.workspaces[].label')
+  z_dirs=$(sort -t'|' -k2 -rn "$Z_FILE" 2>/dev/null | cut -d'|' -f1)
+
+  selected=$(printf '%s\n%s\n' "$existing_labels" "$z_dirs" | awk 'NF' | sort -u | fzf --prompt="workspace> ")
+  if [ -n "$selected" ]; then
+    existing_id=$(workspace_id_by_label "$selected")
+    if [ -n "$existing_id" ]; then
+      herdr workspace focus "$existing_id" >/dev/null
+    elif [ -d "$selected" ]; then
+      open_path "$selected"
+    fi
+  fi
 fi
 
-existing_labels=$(herdr workspace list | jq -r '.result.workspaces[].label')
-z_dirs=$(sort -t'|' -k2 -rn "$Z_FILE" 2>/dev/null | cut -d'|' -f1)
-
-selected=$(printf '%s\n%s\n' "$existing_labels" "$z_dirs" | awk 'NF' | sort -u | fzf --prompt="workspace> ")
-[ -n "$selected" ] || exit 0
-
-existing_id=$(workspace_id_by_label "$selected")
-if [ -n "$existing_id" ]; then
-  herdr workspace focus "$existing_id" >/dev/null
-elif [ -d "$selected" ]; then
-  open_path "$selected"
+# herdr ペインの外（$HERDR_ENV 無し）から呼ばれた場合は、この端末自体を herdr にアタッチする
+if [ -z "${HERDR_ENV:-}" ]; then
+  exec herdr
 fi
