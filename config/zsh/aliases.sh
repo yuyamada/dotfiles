@@ -156,20 +156,16 @@ alias date='gdate'
 
 alias rr=gh-revreq
 
-# tmux session switcher
+# herdr workspace switcher
 function s() {
-  if [[ -n "$1" ]]; then
-    sesh connect "$1"
-    return
-  fi
-  sesh connect $(sesh list -t | fzf)
+  ~/.config/zsh/herdr-session-switch.sh "$@"
 }
 
 # s関数のディレクトリ補完を設定
 _s_completion() {
-    # 1. sesh のセッションリストを候補に出す
+    # 1. herdr の workspace 一覧を候補に出す
     local -a sessions
-    sessions=(${(f)"$(sesh list -t)"})
+    sessions=(${(f)"$(herdr workspace list | jq -r '.result.workspaces[].label')"})
     _describe 'session' sessions
 
     # 2. ディレクトリのみを候補に出す (-/ オプション)
