@@ -136,6 +136,7 @@ setup_langfuse() {
 setup_herdr() {
     mkdir -p "$HOME/.config/herdr"
     link_file "$DOTFILES_DIR/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+    link_file "$DOTFILES_DIR/config/herdr/scripts" "$HOME/.config/herdr/scripts"
 }
 
 setup_otel() {

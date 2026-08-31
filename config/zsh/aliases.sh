@@ -158,7 +158,7 @@ alias rr=gh-revreq
 
 # herdr workspace switcher
 function s() {
-  ~/.config/zsh/herdr-session-switch.sh "$@"
+  ~/.config/herdr/scripts/herdr-session-switch.sh "$@"
 }
 
 # s関数のディレクトリ補完を設定
