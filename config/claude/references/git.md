@@ -16,6 +16,10 @@
   `checkout -b` in place — stop and ask the user whether to set up a worktree
   for it or commit directly to the default branch (small config-only repos
   sometimes commit directly by convention; check recent history for the norm)
+- If the work is naturally a chain of dependent branches (a stack), don't
+  create one worktree per branch — create a single worktree for the whole
+  stack and manage the branches inside it with `gh stack`; see "Stacked /
+  Dependent Pull Requests" below
 
 ## Committing
 - Run `git diff` (or `git status --short`) first to see what actually changed
@@ -66,3 +70,40 @@ Choose the ignore layer by who should see the rule, not by convenience:
   `gh pr create --draft --assignee @me --title "<title>" --body "<body>"`
 - After creating, show the PR URL and ask if the user wants to open it in
   the browser
+
+## Stacked / Dependent Pull Requests
+- Use the `gh stack` extension (`github/gh-stack`) for a change that's
+  naturally split into sequential, dependent pieces (依存のある PR), instead
+  of hand-rolling `gh pr create --base <parent-branch>` per branch
+- Work inside a single worktree for the whole stack. `gh stack`'s own
+  navigation (`checkout`, `up`, `down`, `top`, `bottom`, `switch`) moves
+  between the stack's branches by checking out in place, so giving each
+  branch its own worktree defeats it
+- The same `gh`/`gh-write` split from `references/gh.md` applies to `gh
+  stack` subcommands — pick the wrapper by whether the subcommand writes to
+  GitHub, not by habit:
+  - `gh stack ...` (readonly): `init`, `add`, `checkout`, `view`, `rebase`,
+    and the navigation commands (`up`/`down`/`top`/`bottom`/`switch`/`trunk`)
+    — these only touch the local repo (`rebase` fetches but never pushes)
+  - `gh-write stack ...` (write): `submit`, `sync`, `merge`, `push`, `link`,
+    `unstack` — these push branches, create/update PRs, or touch the
+    remote stack object
+- Set up: `gh stack init <base-branch>` in that worktree, then `gh stack add
+  <branch> -Am "<message>"` per layer — each new branch is based on the
+  previous one automatically
+- Publish or update the whole stack's PRs in one step with `gh-write stack
+  submit` (interactive editor for title/body/draft state per PR unless
+  `--auto` is passed) — this replaces creating/updating each PR by hand.
+  Confirm with the user before running it, same as any other push
+- Keep the stack current with `gh-write stack sync` (fetch, cascade-rebase
+  each branch onto its parent, force-push with `--force-with-lease
+  --atomic`, then sync PR state) — confirm with the user first since it
+  force-pushes every branch in the stack. If it hits a rebase conflict, it
+  rolls back automatically and reports that `gh stack rebase` is needed to
+  resolve interactively
+- Merge with `gh-write stack merge`, which atomically merges the stack up
+  to a chosen PR (or all of it) using GitHub's native stack merge — confirm
+  with the user first, including which merge method (`--squash`/`--merge`/
+  `--rebase`) to use
+- `gh stack view` shows the current stack's state; check it before deciding
+  what to sync, submit, or merge

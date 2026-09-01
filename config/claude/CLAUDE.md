@@ -21,8 +21,9 @@ having seen it in an earlier turn of this one.
   placement under `config/claude/skills/<name>/`, company-specific skills stay
   out of public dotfiles). Read before: creating or editing a skill.
 - `references/git.md` — git workflow conventions (worktrees over
-  `checkout -b`, ignore-file layering, Conventional Commits, draft-first PRs).
-  Read before: any git branch/commit/PR operation.
+  `checkout -b`, ignore-file layering, Conventional Commits, draft-first PRs,
+  `gh stack` for dependent/stacked PRs). Read before: any git branch/commit/PR
+  operation.
 - `references/technical-answers.md` — cite official docs or source code before
   answering technical questions (API behavior, CLI flags, config, version
   differences). Read before: answering any technical claim.
