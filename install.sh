@@ -20,6 +20,7 @@
 #   anthropic   Anthropic API キーを Keychain に登録
 #   otel        Claude Code の OTel スタックの LaunchAgent を登録
 #   ghtkn-agent ghtkn agent の LaunchAgent を登録（自動起動）
+#   my-tasks    my-tasks の定期フェッチ用 LaunchAgent を登録（1分ごと）
 
 set -euo pipefail
 
@@ -175,6 +176,24 @@ setup_ghtkn_agent() {
     echo "   ロック解除には 'ghtkn agent unlock --enable-refresh' を実行してください"
 }
 
+setup_my_tasks() {
+    local plist_dst="$HOME/Library/LaunchAgents/com.my-tasks.fetch.plist"
+    local template="$DOTFILES_DIR/config/claude/skills/my-tasks/com.my-tasks.fetch.plist.template"
+
+    if ! command -v gh &>/dev/null || ! command -v jq &>/dev/null || ! command -v ghtkn &>/dev/null; then
+        echo "⚠️  gh/jq/ghtkn が見つかりません。my-tasks fetch LaunchAgent のセットアップをスキップします"
+        return
+    fi
+
+    sed -e "s|DOTFILES_DIR|$DOTFILES_DIR|g" "$template" > "$plist_dst"
+
+    if launchctl list com.my-tasks.fetch &>/dev/null 2>&1; then
+        launchctl unload "$plist_dst" 2>/dev/null || true
+    fi
+    launchctl load "$plist_dst"
+    echo "✅ my-tasks fetch LaunchAgent を登録しました（1分ごとに ~/.cache/my-tasks/status.json を更新）"
+}
+
 setup_anthropic() {
     read -p "この PC で Anthropic API キーを使用しますか? (y/N): " -n 1 -r
     echo
@@ -202,6 +221,7 @@ setup_all() {
     setup_anthropic
     setup_otel
     setup_ghtkn_agent
+    setup_my_tasks
 }
 
 # ---- Dispatch ----
@@ -223,9 +243,10 @@ else
             anthropic)      setup_anthropic ;;
             otel)           setup_otel ;;
             ghtkn-agent)    setup_ghtkn_agent ;;
+            my-tasks)       setup_my_tasks ;;
             *)
                 echo "Unknown target: $target" >&2
-                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel ghtkn-agent" >&2
+                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel ghtkn-agent my-tasks" >&2
                 exit 1
                 ;;
         esac

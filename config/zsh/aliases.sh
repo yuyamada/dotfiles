@@ -180,3 +180,6 @@ compdef _s_completion s
 
 # bat
 alias bat='bat -p'
+
+# my-tasks
+alias mtf='~/.claude/skills/my-tasks/scripts/fetch-status.sh'
