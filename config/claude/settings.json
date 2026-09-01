@@ -178,6 +178,7 @@
     ],
     "ask": [
       "Bash(gh-write:*)",
+      "Bash(gh-personal:*)",
       "Bash(crit push)",
       "Bash(crit push *)",
       "Bash(crit share)",
