@@ -72,6 +72,33 @@
       "Bash(kubectl describe *)",
       "Bash(kubectl get *)",
       "Bash(kubectl logs *)",
+      "Bash(crit)",
+      "Bash(crit --pr *)",
+      "Bash(crit --mr *)",
+      "Bash(crit --range *)",
+      "Bash(crit --session *)",
+      "Bash(crit live *)",
+      "Bash(crit preview *)",
+      "Bash(crit plan *)",
+      "Bash(crit story)",
+      "Bash(crit story *)",
+      "Bash(crit comment *)",
+      "Bash(crit comments)",
+      "Bash(crit comments *)",
+      "Bash(crit pull)",
+      "Bash(crit pull *)",
+      "Bash(crit check)",
+      "Bash(crit check *)",
+      "Bash(crit status)",
+      "Bash(crit status *)",
+      "Bash(crit stats)",
+      "Bash(crit stats *)",
+      "Bash(crit stop)",
+      "Bash(crit stop *)",
+      "Bash(crit cleanup)",
+      "Bash(crit cleanup *)",
+      "Bash(crit config)",
+      "Bash(crit config *)",
       "Read(~/.claude/settings.json)",
       "Read(~/.claude/projects/**)",
       "Read(~/.claude/references/**)",
@@ -150,7 +177,15 @@
       "Bash(uvx python * -c *)"
     ],
     "ask": [
-      "Bash(gh-write:*)"
+      "Bash(gh-write:*)",
+      "Bash(crit push)",
+      "Bash(crit push *)",
+      "Bash(crit share)",
+      "Bash(crit share *)",
+      "Bash(crit unpublish)",
+      "Bash(crit unpublish *)",
+      "Bash(crit auth *)",
+      "Bash(crit install *)"
     ]
   },
   "model": "sonnet",
@@ -195,7 +230,8 @@
     "claude-md-management@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "log-es@log-es": true
+    "log-es@log-es": true,
+    "crit@crit": true
   },
   "extraKnownMarketplaces": {
     "claude-code-plugins": {
@@ -227,6 +263,12 @@
         "source": "github",
         "repo": "Nikkei/log-es",
         "ref": "feat-log-es-mcp-skill"
+      }
+    },
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit"
       }
     }
   },
