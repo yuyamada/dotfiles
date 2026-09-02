@@ -315,5 +315,6 @@
         "X-Goog-Api-Key": "${GOOGLE_API_KEY}"
       }
     }
-  }
+  },
+  "verbose": true
 }
