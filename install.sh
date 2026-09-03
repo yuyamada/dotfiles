@@ -17,6 +17,7 @@
 #   cursor      Cursor CLI の許可リストを同期
 #   ccvm        ~/.local/bin/ccvm をリンク
 #   langfuse    ~/.local/bin/langfuse-setup をリンク
+#   herdr       ~/.config/herdr/config.toml をリンク
 #   anthropic   Anthropic API キーを Keychain に登録
 #   otel        Claude Code の OTel スタックの LaunchAgent を登録
 #   ghtkn-agent ghtkn agent の LaunchAgent を登録（自動起動）
@@ -57,7 +58,7 @@ setup_configs() {
         [ -d "$dir" ] || continue
         dirname=$(basename "$dir")
         case "$dirname" in
-            claude|agents|cursor|git|lima|langfuse) continue ;;
+            claude|agents|cursor|git|lima|langfuse|herdr) continue ;;
         esac
         link_file "$dir" "$HOME/.config/$dirname"
     done
@@ -131,6 +132,12 @@ setup_ccvm() {
 setup_langfuse() {
     mkdir -p "$HOME/.local/bin"
     link_file "$DOTFILES_DIR/bin/langfuse-setup" "$HOME/.local/bin/langfuse-setup"
+}
+
+setup_herdr() {
+    mkdir -p "$HOME/.config/herdr"
+    link_file "$DOTFILES_DIR/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+    link_file "$DOTFILES_DIR/config/herdr/scripts" "$HOME/.config/herdr/scripts"
 }
 
 setup_otel() {
@@ -218,6 +225,7 @@ setup_all() {
     setup_cursor
     setup_ccvm
     setup_langfuse
+    setup_herdr
     setup_anthropic
     setup_otel
     setup_ghtkn_agent
@@ -240,13 +248,14 @@ else
             cursor)         setup_cursor ;;
             ccvm)           setup_ccvm ;;
             langfuse)       setup_langfuse ;;
+            herdr)          setup_herdr ;;
             anthropic)      setup_anthropic ;;
             otel)           setup_otel ;;
             ghtkn-agent)    setup_ghtkn_agent ;;
             my-tasks)       setup_my_tasks ;;
             *)
                 echo "Unknown target: $target" >&2
-                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse anthropic otel ghtkn-agent my-tasks" >&2
+                echo "Available: configs git zsh karabiner serena claude cursor ccvm langfuse herdr anthropic otel ghtkn-agent my-tasks" >&2
                 exit 1
                 ;;
         esac

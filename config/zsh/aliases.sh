@@ -93,7 +93,7 @@ alias tokenize='sed -e "s/ /_/g" | sed -E "s/(.)/\1 /g" | sed -e "s/ $//g"'
 alias tk='tokenize'
 alias detokenize='sed -e "s/ //g" | sed -e "s/_/ /g"'
 alias dtk='detokenize'
-alias relogin='exec $SHELL -l'
+alias relogin='HERDR_SKIP_AUTOSTART=1 exec $SHELL -l'
 alias pc='pbcopy'
 alias pp='pbpaste'
 alias gpp='g++'
@@ -156,20 +156,16 @@ alias date='gdate'
 
 alias rr=gh-revreq
 
-# tmux session switcher
+# herdr workspace switcher
 function s() {
-  if [[ -n "$1" ]]; then
-    sesh connect "$1"
-    return
-  fi
-  sesh connect $(sesh list -t | fzf)
+  ~/.config/herdr/scripts/herdr-session-switch.sh "$@"
 }
 
 # s関数のディレクトリ補完を設定
 _s_completion() {
-    # 1. sesh のセッションリストを候補に出す
+    # 1. herdr の workspace 一覧を候補に出す
     local -a sessions
-    sessions=(${(f)"$(sesh list -t)"})
+    sessions=(${(f)"$(herdr workspace list | jq -r '.result.workspaces[].label')"})
     _describe 'session' sessions
 
     # 2. ディレクトリのみを候補に出す (-/ オプション)

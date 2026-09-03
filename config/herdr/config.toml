@@ -1,0 +1,38 @@
+onboarding = false
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+f"
+goto = "prefix+s"
+settings = "prefix+."
+split_vertical = "prefix+|"
+detach = "prefix+d"
+
+[[keys.command]]
+key = "prefix+a"
+type = "popup"
+command = "~/.config/herdr/scripts/herdr-agent-picker.sh"
+width = "80%"
+height = "60%"
+
+[ui]
+prompt_new_tab_name = false
+pane_outer_borders = false
+pane_gaps = false
+sidebar_width = 20
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "hidden"
+tab_bar_position = "bottom"
+tab_bar_right = [{ type = "command", command = "~/.config/herdr/scripts/herdr-active-workspace-label.sh" }]
+
+[ui.toast]
+delivery = "terminal"
+
+[ui.sound]
+enabled = false
+
+[experimental]
+kitty_graphics = true
