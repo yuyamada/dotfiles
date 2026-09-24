@@ -21,8 +21,8 @@ eval "$(mise activate zsh)"
 alias c='claude'
 alias cc='claude --continue'
 
-# シェル起動時に tmux を自動起動（既に tmux 内なら何もしない）
-if [[ -z "$TMUX" && -o interactive ]]; then
+# シェル起動時に tmux を自動起動（既に tmux 内、または Orca のターミナルなら何もしない）
+if [[ -z "$TMUX" && "$TERM_PROGRAM" != "Orca" && -o interactive ]]; then
   if command -v tmux &>/dev/null; then
     tmux new-session -A -s default -c ~
   fi
